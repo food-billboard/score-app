@@ -1,0 +1,48 @@
+@font-face {
+  font-family: font_one;
+  src: url('../public/font-1.ttf');
+}
+@font-face {
+  font-family: font_two;
+  src: url('../public/font-2.ttf');
+}
+@font-face {
+  font-family: font_three;
+  src: url('../public/font-3.ttf');
+}
+@font-face {
+  font-family: font_four;
+  src: url('../public/font-4.ttf');
+}
+
+body {
+  font-family: font_one;
+  margin: 0;
+  font-size: var(--adm-font-size-9, 17px);
+  background: #a8ff78; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    rgba(120,255,214, 0.5),
+    rgba(168,255,120, 0.5)
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    rgba(120,255,214, 0.5),
+    rgba(168,255,120, 0.5)
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+:root:root {
+  --adm-color-background: transparent;
+  --adm-color-primary: #00d86a;
+  // --adm-color-border: rgb(0,216,106, 0.3);
+  --adm-color-border: transparent;
+  --adm-font-family: font_one, -apple-system, blinkmacsystemfont, 'Helvetica Neue',
+  helvetica, segoe ui, arial, roboto, 'PingFang SC', 'miui',
+  'Hiragino Sans GB', 'Microsoft Yahei', sans-serif;
+}
+.t-c {
+  text-align: center;
+}
+button, input {
+  font: var(--adm-font-family);
+}
