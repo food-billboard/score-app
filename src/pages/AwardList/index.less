@@ -29,22 +29,28 @@
 .award-list {
   padding: 0 6px;
   &-item {
-    display: flex;
-    height: 80px;
     width: 100%;
+    background-color: white;
+    border-radius: 1rem;
     margin-bottom: 1rem;
-    &-left {
-      width: 40%;
+    overflow: hidden;
+    padding: .8rem;
+    box-sizing: border-box;
+    position: relative;
+
+    &-top {
+      width: 100%;
+      border-radius: 1rem;
+      overflow: hidden;
       img {
         width: 100%;
         height: 100%;
         object-fit: cover;
       }
     }
-    &-right {
+    &-bottom {
       box-sizing: border-box;
       padding: 0 5px;
-      width: 60%;
       display: flex;
       flex-direction: column;
       &-title {
@@ -63,18 +69,17 @@
           padding: 0 .5em;
         }
       }
-      &-money {
-        flex: 1;
-        color: red;
-        display: flex;
-        align-items: flex-end;
-        & span:nth-of-type(1) {
-          font-size: 1.2rem;
-        }
-        & span:nth-of-type(2) {
-          font-size: 2rem;
-        }
-      }
+    }
+    &-absolute {
+      position: absolute;
+      right: .8rem;
+      top: .8rem;
+      background-color: white;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      border-bottom-left-radius: 1rem;
     }
   }
 }

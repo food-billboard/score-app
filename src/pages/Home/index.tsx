@@ -16,7 +16,7 @@ const PageHome = () => {
   return (
     <div className={styles['home']}>
       <div className={styles['home-title']}>欢迎来到积了么</div>
-      <div className={styles['home-sub-title']}>请选择你要做什么</div>
+      {/* <div className={styles['home-sub-title']}>请选择你要做什么</div>
       <Grid columns={3}>
         {[
           {
@@ -35,13 +35,13 @@ const PageHome = () => {
           const { label, value } = item;
           return (
             <Grid.Item key={value}>
-              <div className='t-c'>
+              <div className="t-c">
                 <Button onClick={() => setAction(value)}>{label}</Button>
               </div>
             </Grid.Item>
           );
         })}
-      </Grid>
+      </Grid> */}
       <div className={styles['home-sub-title']}>请选择你的身份</div>
       <Grid columns={4}>
         {[
@@ -65,7 +65,7 @@ const PageHome = () => {
           const { label, value } = item;
           return (
             <Grid.Item key={value?.toString()}>
-              <div className='t-c'>
+              <div className="t-c">
                 <Button onClick={() => setRole(value as string)}>
                   {label}
                 </Button>

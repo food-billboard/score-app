@@ -1,5 +1,15 @@
 import request from '@/utils/request'
 
+// 获取当前用户信息
+export async function getUserInfo() {
+  return request<any>('/api/user/customer', {
+    method: 'GET',
+    params: {
+      _id: process.env.DEFAULT_CHILD_ID
+    }
+  });
+}
+
 // 积分
 export const postScoreMemory = (data: API_SCORE.PostScoreMemoryParams) => {
   return request('/api/manage/score/memory/obtain', {

@@ -1,0 +1,36 @@
+.award-detail {
+  padding: 3rem 3rem 0 3rem;
+  & > div {
+    background-color: white;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+    overflow: hidden;
+  }
+  &-main {
+    padding: 1rem;
+    box-sizing: border-box;
+    &-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 5rem;
+    }
+  }
+  &-action {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    box-sizing: border-box;
+    &-account {
+      display: flex;
+      align-items: center;
+      & div:nth-of-type(1) {
+        margin-right: .5em;
+      }
+    }
+    button {
+      width: 40vw;
+    }
+  }
+}

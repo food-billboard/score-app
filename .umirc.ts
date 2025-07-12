@@ -28,9 +28,9 @@ export default defineConfig({
   },
   routes: [
     { path: '/', component: '@/pages/Home/index' },
+    { path: '/task', component: '@/pages/Task/index' },
     { path: '/score', component: '@/pages/Score/index' },
     { path: '/award', component: '@/pages/AwardList/index' },
-    { path: '/award-detail', component: '@/pages/AwardDetail/index' }
   ],
   npmClient: 'yarn',
   scripts: [

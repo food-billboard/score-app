@@ -5,12 +5,15 @@ import {
   Button,
   DotLoading,
   Grid,
+  Popup
 } from 'antd-mobile';
 import { history } from 'umi';
+import classnames from 'classnames'
 import { getScoreAward } from '@/services/base';
 import styles from './index.less';
 import { useGetState } from 'ahooks';
-import { AWARD_CYCLE_ENUM } from '@/utils/constants'
+import { AWARD_CYCLE_ENUM } from '@/utils/constants';
+import AwardDetail from './components/AwardDetail';
 
 const AwardList = () => {
   const [content, setContent, getContent] = useGetState('');
@@ -18,6 +21,7 @@ const AwardList = () => {
     API_SCORE.GetScoreAwardData[]
   >([]);
   const [hasMore, setHasMore] = useState(true);
+  const [ currentData, setCurrentData ] = useState<false | API_SCORE.GetScoreAwardData>(false)
 
   const currentPage = useRef(1);
 
@@ -37,7 +41,7 @@ const AwardList = () => {
   }
 
   const handleDetail = useCallback((value: API_SCORE.GetScoreAwardData) => {
-    history.push('/award-detail', value);
+    setCurrentData(value)
   }, []);
 
   useEffect(() => {
@@ -136,42 +140,50 @@ const AwardList = () => {
       {dataSource.length > 0 ? (
         <>
           <div className={styles['award-list']}>
-            <Grid columns={2}>
+            <Grid columns={3} gap={10}>
               {dataSource.map((item) => {
-                const { 
+                const {
                   award_image_list,
                   award_name,
                   award_cycle,
                   award_cycle_count,
-                  exchange_score
+                  exchange_score,
                 } = item;
                 return (
-                  <Grid.Item>
+                  <Grid.Item key={item._id}>
                     <div
                       className={styles['award-list-item']}
-                      key={item._id}
                       onClick={handleDetail.bind(null, item)}
                     >
-                      <div className={styles['award-list-item-left']}>
+                      <div className={styles['award-list-item-top']}>
                         <img src={award_image_list[0]} />
                       </div>
-                      <div className={styles['award-list-item-right']}>
-                        <div className={styles['award-list-item-right-title']}>
-                        {award_name}
+                      <div className={styles['award-list-item-bottom']}>
+                        <div className={styles['award-list-item-bottom-title']}>
+                          {award_name}
                         </div>
-                        <div className={styles['award-list-item-right-sub-title']}>
-                          <span>兑换规则</span>
-                          <span>|</span>
+                        <div
+                          className={styles['award-list-item-bottom-sub-title']}
+                        >
+                          {/* <span>兑换规则</span>
+                          <span>|</span> */}
                           <span>
-                            {
-                              award_cycle === 'NONE' ? `无限制` : `每${(AWARD_CYCLE_ENUM as any)[award_cycle] || '-'}${award_cycle_count}次`
-                            }
+                            {award_cycle === 'NONE'
+                              ? `无限制`
+                              : `每${
+                                  (AWARD_CYCLE_ENUM as any)[award_cycle] || '-'
+                                }${award_cycle_count}次`}
                           </span>
                         </div>
-                        <div className={styles['award-list-item-right-money']}>
-                          <span>￥</span>
-                          <span>{exchange_score}</span>
-                        </div>
+                      </div>
+                      <div
+                        className={classnames(
+                          styles['award-list-item-absolute'],
+                          'star',
+                        )}
+                      >
+                        <div></div>
+                        <div>{exchange_score}</div>
                       </div>
                     </div>
                   </Grid.Item>
@@ -195,6 +207,18 @@ const AwardList = () => {
           正在拼命加载数据
         </div>
       )}
+      <Popup 
+        visible={!!currentData}
+        closeOnMaskClick
+        destroyOnClose
+        onClose={() => setCurrentData(false)}
+        bodyStyle={{
+          borderTopLeftRadius: '8px',
+          borderTopRightRadius: '8px',
+        }}
+      >
+        <AwardDetail value={currentData as API_SCORE.GetScoreAwardData} />
+      </Popup>
     </div>
   );
 };
