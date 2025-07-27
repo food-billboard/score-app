@@ -11,10 +11,18 @@ export async function getUserInfo() {
 }
 
 // 积分
-export const postScoreMemory = (data: API_SCORE.PostScoreMemoryParams) => {
+export const putScoreMemory = (data: API_SCORE.PutScoreMemoryParams) => {
   return request('/api/manage/score/memory/obtain', {
-    method: 'POST',
+    method: 'PUT',
     data
+  });
+};
+
+// 积分记录
+export const getScoreMemoryList = (params: API_SCORE.GetScoreMemoryListParams) => {
+  return request<API_SCORE.GetListResponse<API_SCORE.GetScoreMemoryListData>>('/api/manage/score/memory/obtain', {
+    method: 'GET',
+    params
   });
 };
 
@@ -37,6 +45,14 @@ export const checkScoreExchangeMemory = (data: API_SCORE.CheckScoreExchangeMemor
 // 分类列表
 export const getScoreClassifyList = (params: API_SCORE.GetScoreClassifyListParams) => {
   return request<API_SCORE.GetListResponse<API_SCORE.GetScoreClassifyListData>>('/api/manage/score/classify', {
+    method: 'GET',
+    params
+  });
+};
+
+// 一级分类列表
+export const getScorePrimaryClassifyList = (params: API_SCORE.GetScorePrimaryClassifyListParams) => {
+  return request<API_SCORE.GetListResponse<API_SCORE.GetScorePrimaryClassifyListData>>('/api/manage/score/classify/primary', {
     method: 'GET',
     params
   });

@@ -1,8 +1,8 @@
 import { defineConfig } from 'umi';
 import 'dotenv/config'
 
-// const API_DOMAIN = `http://${process.env.RASPBERRY_IP}`;
-const API_DOMAIN = 'http://localhost:4000';
+const API_DOMAIN = `http://${process.env.RASPBERRY_IP}`;
+// const API_DOMAIN = 'http://localhost:4000';
 
 export default defineConfig({
   hash: true,
@@ -15,16 +15,30 @@ export default defineConfig({
     publicPath: '/api/backend/score/',
   } : {}),
   define: {
+    'process.env.DEFAULT_CHILD_ID': process.env.DEFAULT_CHILD_ID,
     'process.env.REACT_APP_ENV': process.env.REACT_APP_ENV,
     'process.env.REQUEST_API': process.env.REQUEST_API,
-    'process.env.MOCK_USER_MOBILE': process.env.MOCK_USER_MOBILE,
-    'process.env.MOCK_USER_PASSWORD': process.env.MOCK_USER_PASSWORD,
-    'process.env.MOCK_USER_EMAIL': process.env.MOCK_USER_EMAIL,
     'process.env.DEFAULT_FATHER_ID': process.env.DEFAULT_FATHER_ID,
     'process.env.DEFAULT_MATHER_ID': process.env.DEFAULT_MATHER_ID,
     'process.env.DEFAULT_GRANDPA_ID': process.env.DEFAULT_GRANDPA_ID,
     'process.env.DEFAULT_GRANDMA_ID': process.env.DEFAULT_GRANDMA_ID,
-    'process.env.API_DOMAIN': API_DOMAIN
+    'process.env.API_DOMAIN': API_DOMAIN,
+
+    'process.env.MOCK_FATHER_MOBILE': process.env.MOCK_FATHER_MOBILE,
+    'process.env.MOCK_FATHER_PASSWORD': process.env.MOCK_FATHER_PASSWORD,
+    'process.env.MOCK_FATHER_EMAIL': process.env.MOCK_FATHER_EMAIL,
+
+    'process.env.MOCK_MOTHER_MOBILE': process.env.MOCK_MOTHER_MOBILE,
+    'process.env.MOCK_MOTHER_PASSWORD': process.env.MOCK_MOTHER_PASSWORD,
+    'process.env.MOCK_MOTHER_EMAIL': process.env.MOCK_MOTHER_EMAIL,
+
+    'process.env.MOCK_GRANDPA_MOBILE': process.env.MOCK_GRANDPA_MOBILE,
+    'process.env.MOCK_GRANDPA_PASSWORD': process.env.MOCK_GRANDPA_PASSWORD,
+    'process.env.MOCK_GRANDPA_EMAIL': process.env.MOCK_GRANDPA_EMAIL,
+
+    'process.env.MOCK_GRANDMA_MOBILE': process.env.MOCK_GRANDMA_MOBILE,
+    'process.env.MOCK_GRANDMA_PASSWORD': process.env.MOCK_GRANDMA_PASSWORD,
+    'process.env.MOCK_GRANDMA_EMAIL': process.env.MOCK_GRANDMA_EMAIL,
   },
   routes: [
     { path: '/', component: '@/pages/Home/index' },

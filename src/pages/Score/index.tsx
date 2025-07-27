@@ -1,7 +1,6 @@
 import { Form, Button, Space, Toast } from 'antd-mobile';
 import { useCallback } from 'react';
 import { history } from 'umi';
-import { postScoreMemory } from '@/services/base';
 import BackButton from '@/components/BackButton';
 import { getQuery } from '@/utils/tool'
 import FormContent from './components/Form';
@@ -15,10 +14,10 @@ const Score = () => {
     await form
       .validateFields()
       .then((values) => {
-        return postScoreMemory({
-          ...values,
-          target_user: getQuery()['target_user'] 
-        });
+        // return postScoreMemory({
+        //   ...values,
+        //   target_user: getQuery()['target_user'] 
+        // });
       })
       .then(() => {
         Toast.show({

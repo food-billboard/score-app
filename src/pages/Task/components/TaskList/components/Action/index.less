@@ -1,0 +1,105 @@
+.action {
+
+  padding: 3rem 3rem 0 3rem;
+  & > div {
+    background-color: white;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+    overflow: hidden;
+  }
+  &-main {
+    padding: 1rem;
+    box-sizing: border-box;
+    &-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      &-image {
+        width: 6rem;
+        height: 6rem;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-right: 1rem;
+        & img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+      &-title {
+        flex: 1;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      } 
+      &-button {
+        margin-left: 1rem;
+      }
+    }
+    .action-content {
+      height: 20rem;
+      border: 2px solid #eee;
+      border-radius: 1.5rem;
+      box-sizing: border-box;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      textarea {
+        background-color: #eee;
+        padding: .5rem;
+        height: 100%;
+      }
+    }
+    .action-tab {
+      &-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 2rem;
+      }
+      &-title-deal span {
+        color: red;
+      }
+    }
+    .action-placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+    }
+    .action-input {
+      flex: 1;
+      & > div {
+        height: 100%;
+      }
+    }
+  }
+  &-action {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 20%;
+    box-sizing: border-box;
+    button {
+      width: 100%;
+    }
+  }
+}
+
+.question {
+  font-size: 1.2rem;
+  &-section {
+    margin-bottom: 1.5rem;
+    & span:nth-of-type(1) {
+      display: inline-block;
+      width: 4em;
+      font-weight: bold;
+      margin-right: 1em;
+      text-align: right;
+    }
+    & span:nth-of-type(2) {
+      color: gray;
+    }
+  }
+}

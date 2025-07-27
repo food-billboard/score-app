@@ -1,11 +1,9 @@
 import { Outlet, history } from 'umi';
 import { Toast, TabBar, Avatar } from 'antd-mobile';
-import { useUpdate } from 'ahooks'
 import { useCallback, useEffect, useState } from 'react';
-import { AppOutline, MessageOutline, MessageFill } from 'antd-mobile-icons';
-import { getUserInfo } from '@/services/base';
-import { setUserInfo, getUserInfo as getUserInfoData } from '@/utils/constants';
-import mockLogin from '../utils/mockLogin';
+import { CalendarOutline, BillOutline } from 'antd-mobile-icons';
+import { Emitter } from '@/utils/routeListener'
+import { getUserInfo as getUserInfoData } from '@/utils/constants';
 import styles from './index.less';
 
 export default function Layout() {
@@ -13,61 +11,59 @@ export default function Layout() {
     {
       key: '/task',
       title: '目标',
-      icon: <AppOutline />,
+      icon: <CalendarOutline />
     },
     {
       key: '/award',
       title: '星愿池',
-      icon: (active: boolean) =>
-        active ? <MessageFill /> : <MessageOutline />,
+      icon: <BillOutline />
     },
-    // {
-    //   key: 'personalCenter',
-    //   title: '我的',
-    //   icon: <UserOutline />,
-    // },
   ];
 
-  const [activeKey, setActiveKey] = useState('home');
+  const [activeKey, setActiveKey] = useState('/');
 
-  const update = useUpdate()
-
-  const { username, score, avatar } = getUserInfoData()
+  const { username, score, avatar } = getUserInfoData();
 
   const onRouteChange = useCallback((key: string) => {
-    setActiveKey(key);
     history.push(key);
   }, []);
 
   useEffect(() => {
-    // 上传需要登录，这里用一个默认账号来登录
-    mockLogin()
-      .then(getUserInfo)
-      .then((value) => {
-        setUserInfo(value);
-        update()
-      });
-
-    setActiveKey(history.location.pathname);
+    function listener() {
+      const currentKey = history.location.pathname
+      setActiveKey(currentKey);
+    }
+    Emitter.addListener('route-change', listener)
+    listener()
+    return () => {
+      Emitter.removeListener('route-listener')
+    }
   }, []);
 
   useEffect(() => {
     Toast.config({ duration: 500 });
   }, []);
 
+  if (activeKey === '/') {
+    return <Outlet />;
+  }
+
   return (
     <div className={styles['score-app']}>
       <div className={styles['score-app-main']}>
         <div className={styles['score-app-main-header']}>
           <div className={styles['score-app-main-header-username']}>
-          <Avatar src={avatar} style={{ '--size': '48px' }} />
-            {username}11
+            <Avatar
+              src={avatar}
+              style={{ '--size': '48px', marginRight: '.5em' }}
+            />
+            {username}
           </div>
           <div className={'star j-c'}>
             <div></div>
             <div>{score}</div>
           </div>
-          <div className='t-r'>x</div>
+          <div className="t-r">x</div>
         </div>
         <Outlet />
       </div>

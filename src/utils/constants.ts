@@ -11,10 +11,12 @@ let USER_INFO: {
   username: string 
   score: number 
   avatar: string
+  __user__: string 
 } = {
   username: '',
   avatar: '',
-  score: 0
+  score: 0,
+  __user__: ''
 }
 
 export function getUserInfo() {

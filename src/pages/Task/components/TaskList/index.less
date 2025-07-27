@@ -1,0 +1,58 @@
+.task-list {
+  &-item {
+    margin-top: 2rem;
+    &-header {
+      display: flex;
+      margin-bottom: 1rem;
+      justify-content: center;
+      align-items: center;
+      & > div {
+        padding: 1rem 2rem;
+        border-radius: 1.5rem;
+        background-color: white;
+      }
+    }
+    &-main {
+      box-sizing: border-box;
+      padding: 0 1rem;
+      &-data {
+        margin-bottom: .5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: white;
+        box-sizing: border-box;
+        padding: 1rem 1.5rem;
+        border-radius: 2rem;
+        &-image {
+          width: 6rem;
+          height: 6rem;
+          border-radius: 50%;
+          overflow: hidden;
+          margin-right: 1rem;
+          & img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+        }
+        &-title {
+          font-weight: bold;
+          flex: 1;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
+        }
+        &-score {
+          white-space: nowrap;
+          margin-left: 1rem;
+          & > span,
+          & > svg {
+            font-size: 1.5em;
+            padding-right: .5rem;
+          }
+        }
+      }
+    }
+  }
+}

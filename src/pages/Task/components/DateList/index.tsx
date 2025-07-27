@@ -59,7 +59,7 @@ const DateList = (props: {
             const day = item.format('D')
             const month = item.format('M')
             return (
-              <div onClick={handleClick.bind(null, item)} className={classnames(styles['date-list-main-item'], {
+              <div key={string} onClick={handleClick.bind(null, item)} className={classnames(styles['date-list-main-item'], {
                 [styles['date-list-main-item-today']]: today === string,
                 [styles['date-list-main-item-active']]: value === string
               })}>

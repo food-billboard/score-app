@@ -61,6 +61,9 @@ declare namespace API_SCORE {
     end_date?: string 
     currPage?: number 
     pageSize?: number
+    target_classify?: string 
+    score_type?: string 
+    target_score?: string 
   }
 
   export type GetScoreMemoryListData = {
@@ -74,13 +77,20 @@ declare namespace API_SCORE {
     create_description: string 
     createdAt: string 
     updatedAt: string 
+    target_classify: string 
+    target_classify_name: string 
+    target_classify_image: string 
+    target_primary_classify: string 
+    target_primary_classify_name: string 
+    score_type: string
   }
 
-  export type PostScoreMemoryParams = {
-    target_user: string 
+  export type PutScoreMemoryParams = {
+    _id: string 
     create_content: string 
     create_description?: string 
     target_score: number 
+    score_type: string
   }
 
   export type GetScoreExchangeMemoryListParams = {
@@ -131,12 +141,13 @@ declare namespace API_SCORE {
     _id: string 
     create_user: string 
     create_user_name: string 
+    primary_id: string 
+    primary_name: string 
     content: string 
     description: string 
     createdAt: string 
     updatedAt: string 
-    currPage: number 
-    pageSize: number 
+    image: string 
   }
 
   export type PutScoreClassifyParams = {
@@ -202,4 +213,16 @@ declare namespace API_SCORE {
   export type DeleteScoreAwardParams = {
     _id: string 
   }
+
+  export type GetScorePrimaryClassifyListParams = {
+    content?: string 
+  }
+
+  export type GetScorePrimaryClassifyListData = {
+    _id: string 
+    content: string 
+    createdAt: string 
+    updatedAt: string 
+  }
+
 }
