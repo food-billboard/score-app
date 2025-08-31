@@ -59,8 +59,9 @@ const Action = (props: {
   value: API_SCORE.GetScoreMemoryListData & {
     defaultScoreType: string;
   };
+  onClose?: () => void 
 }) => {
-  const { value } = props;
+  const { value, onClose } = props;
   const {
     _id,
     target_classify_image,
@@ -119,7 +120,7 @@ const Action = (props: {
         // TODO
         // 失败提示
       } finally {
-        setActionLoading(true);
+        setActionLoading(false);
       }
     },
     {
@@ -211,6 +212,15 @@ const Action = (props: {
           </CapsuleTabs>
         </div>
         <div className={styles['action-action']}>
+          <Button
+            shape="rounded"
+            onClick={onClose}
+            color='primary'
+            fill="outline"
+            style={{marginRight: '1em'}}
+          >
+            取消
+          </Button>
           <Button
             shape="rounded"
             color="primary"

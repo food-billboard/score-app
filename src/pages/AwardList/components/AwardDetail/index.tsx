@@ -5,20 +5,23 @@ import Carousel from './components/Carousel';
 import styles from './index.less';
 import { AWARD_CYCLE_ENUM } from '@/utils/constants';
 import { getQuery } from '@/utils/tool';
+import { getUserInfo as getUserInfoData } from '@/utils/constants';
 
 const AwardDetail = (props: { value: API_SCORE.GetScoreAwardData }) => {
   const { value } = props;
   const { _id, award_name, exchange_score, award_cycle, award_cycle_count } =
     value;
 
+  const { _id: target_user } = getUserInfoData()
+
   const [exchangeCount, setExchangeCount] = useState(1);
 
   const exchange = useCallback(() => {
     return postScoreExchangeMemory({
-      target_user: getQuery()['target_user'] as string,
+      target_user,
       award: _id,
     });
-  }, [_id]);
+  }, [_id, target_user]);
 
   return (
     <div className={styles['award-detail']}>

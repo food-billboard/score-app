@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { FrownOutline, SmileOutline } from 'antd-mobile-icons'
 import { Popup } from 'antd-mobile'
+import dayjs from 'dayjs'
 import { getScorePrimaryClassifyList, getScoreMemoryList } from '@/services/base';
 import ScoreAction from './components/Action'
 import styles from './index.less';
@@ -30,12 +31,12 @@ const TaskList = (props: { currentDate: string }) => {
 
   const fetchScoreMemoryData = async () => {
     return getScoreMemoryList({
-      start_date: currentDate,
-      end_date: currentDate,
+      start_date: dayjs(currentDate).startOf('day').format('YYYY-MM-DD HH:mm:ss'),
+      end_date: dayjs(currentDate).endOf('day').format('YYYY-MM-DD HH:mm:ss'),
       currPage: 0,
       pageSize: 999,
     }).then((data) => {
-      setPrimaryClassifyList(data.list);
+      setTaskList(data.list);
     });
   }
 
@@ -81,12 +82,12 @@ const TaskList = (props: { currentDate: string }) => {
 
   useEffect(() => {
     fetchScoreMemoryData()
-  }, [currentData])
+  }, [currentDate])
 
   return (
     <div className={styles['task-list']}>
       {primaryClassifyList
-        .filter((item) => item.visible)
+        .filter((item) => taskList.some(task => task.target_primary_classify === item._id))
         .map((item) => {
           const { _id, content } = item;
           return (
@@ -142,7 +143,7 @@ const TaskList = (props: { currentDate: string }) => {
           borderTopRightRadius: '8px',
         }}
       >
-        <ScoreAction value={currentData as CurrentData} />
+        <ScoreAction onClose={() => setCurrentData(false)} value={currentData as CurrentData} />
       </Popup>
     </div>
   );

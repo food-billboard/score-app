@@ -7,7 +7,6 @@ import {
   Grid,
   Popup
 } from 'antd-mobile';
-import { history } from 'umi';
 import classnames from 'classnames'
 import { getScoreAward } from '@/services/base';
 import styles from './index.less';
@@ -23,7 +22,7 @@ const AwardList = () => {
   const [hasMore, setHasMore] = useState(true);
   const [ currentData, setCurrentData ] = useState<false | API_SCORE.GetScoreAwardData>(false)
 
-  const currentPage = useRef(1);
+  const currentPage = useRef(0);
 
   async function fetchData() {
     return getScoreAward({

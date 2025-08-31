@@ -8,11 +8,13 @@ export const AWARD_CYCLE_ENUM = {
 }
 
 let USER_INFO: {
+  _id: string
   username: string 
   score: number 
   avatar: string
   __user__: string 
 } = {
+  _id: '',
   username: '',
   avatar: '',
   score: 0,
