@@ -1,8 +1,9 @@
-import { CalendarPicker } from 'antd-mobile';
+import { Calendar, Tabs } from '@nutui/nutui-react-taro';
 import { useCallback, useMemo, useState, useEffect } from 'react';
 import classnames from 'classnames';
+import { View, Text } from '@tarojs/components';
 import dayjs from 'dayjs';
-import styles from './index.less';
+import styles from './index.module.less';
 
 const WEEK_MAP = ['日', '一', '二', '三', '四', '五', '六'];
 
@@ -16,7 +17,7 @@ const DateList = (props: {
   const [stateValue, setStateValue] = useState(value);
 
   const date = useMemo(() => {
-    return dayjs(stateValue).toDate();
+    return dayjs(stateValue).format('YYYY-MM-DD');
   }, [stateValue]);
 
   const today = useMemo(() => {
@@ -32,7 +33,14 @@ const DateList = (props: {
       return dayjs(currentDate).add(index + 1, 'day');
     });
     return [...prevDateList, currentDate, ...nextDateList];
-  }, [value]);
+  }, []);
+
+  const tabIndex = useMemo(() => {
+    const index = dateList.findIndex(
+      (item) => item.format('YYYY-MM-DD') === value,
+    );
+    return !!~index ? index : 0;
+  }, [value, dateList]);
 
   const handleToday = useCallback(() => {
     onChange(dayjs().format('YYYY-MM-DD'));
@@ -45,71 +53,80 @@ const DateList = (props: {
     [onChange],
   );
 
-  useEffect(() => {
-    document.querySelector('#date-today')!.scrollIntoView({ 
-      behavior: 'smooth', // 平滑滚动
-      block: 'center'      // 对齐方式：start, center, end
-    });
-  }, []);
-
   return (
-    <div className={styles['date-list']}>
-      <div className={styles['date-list-select']}>
-        <div
+    <View className={styles['date-list']}>
+      <View className={styles['date-list-select']}>
+        <View
           onClick={() => {
             setStateValue(value);
             setVisible(true);
           }}
         >
           选择
-        </div>
-      </div>
-      <div className={styles['date-list-main']}>
-        {dateList.map((item) => {
-          const string = item.format('YYYY-MM-DD');
-          const day = item.format('D');
-          const month = item.format('M');
-          const dom = (
-            <div
-              key={string}
-              onClick={handleClick.bind(null, item)}
-              className={classnames(styles['date-list-main-item'], {
-                [styles['date-list-main-item-today']]: today === string,
-                [styles['date-list-main-item-active']]: value === string,
-              })}
-              {...today === string ? {id: 'date-today'} : {}}
-            >
-              <span>{day}</span>
-              <div
-                className={classnames({
-                  [styles['date-list-main-item-month']]: day === '1',
-                })}
-              >
-                <span>{day === '1' ? `${month}月 / ` : ''}</span>周
-                {WEEK_MAP[item.day()]}
-              </div>
-            </div>
-          );
-          return dom;
-        })}
-      </div>
-      <div onClick={handleToday} className={styles['date-list-detail']}>
+        </View>
+      </View>
+      <View className={styles['date-list-main']}>
+        <Tabs
+          value={tabIndex}
+          title={() => {
+            return dateList.map((item) => {
+              const string = item.format('YYYY-MM-DD');
+              const day = item.format('D');
+              const month = item.format('M');
+              const dom = (
+                <View
+                  key={string}
+                  onClick={handleClick.bind(null, item)}
+                  className={classnames(styles['date-list-main-item'], {
+                    [styles['date-list-main-item-today']]: today === string,
+                    [styles['date-list-main-item-active']]: value === string,
+                  })}
+                  {...(today === string ? { id: 'date-today' } : {})}
+                >
+                  <Text className={styles['date-list-main-item-day']}>
+                    {day}
+                  </Text>
+                  <View
+                    className={classnames(
+                      {
+                        [styles['date-list-main-item-month']]: day === '1',
+                      },
+                      styles['date-list-main-item-title'],
+                    )}
+                  >
+                    <Text>{day === '1' ? `${month}月 / ` : ''}</Text>周
+                    {WEEK_MAP[item.day()]}
+                  </View>
+                </View>
+              );
+              return dom;
+            });
+          }}
+        >
+          {dateList.map((item) => {
+            const string = item.format('YYYY-MM-DD');
+            return <Tabs.TabPane value={string} key={string} />;
+          })}
+        </Tabs>
+      </View>
+      <View onClick={handleToday} className={styles['date-list-detail']}>
         今天
-      </div>
-      <CalendarPicker
-        visible={visible}
-        selectionMode="single"
-        value={date}
-        onConfirm={(value) => {
-          onChange(dayjs(value).format('YYYY-MM-DD'));
-        }}
-        onChange={(value) => {
-          setStateValue(dayjs(value).format('YYYY-MM-DD'));
-        }}
-        onClose={() => setVisible(false)}
-        onMaskClick={() => setVisible(false)}
-      />
-    </div>
+      </View>
+      {visible && (
+        <Calendar
+          visible={visible}
+          type="single"
+          defaultValue={date}
+          onConfirm={(value) => {
+            onChange(dayjs(value).format('YYYY-MM-DD'));
+          }}
+          onDayClick={(value) => {
+            setStateValue(dayjs(value).format('YYYY-MM-DD'));
+          }}
+          onClose={() => setVisible(false)}
+        />
+      )}
+    </View>
   );
 };
 

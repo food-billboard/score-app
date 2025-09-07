@@ -1,39 +1,63 @@
+import Taro from '@tarojs/taro'
 import request from './request'
 
-const { 
-  REACT_APP_ENV,
-} = process.env;
+const TOKEN = 'TOKEN'
 
-const MOCK_LOGON_MAP: any = {
-  "process.env.DEFAULT_FATHER_ID": {
-    mobile: process.env.MOCK_FATHER_MOBILE,
-    password: process.env.MOCK_FATHER_PASSWORD,
-    email: process.env.MOCK_FATHER_EMAIL
+export const getToken = (returnHeaders: boolean=false) => {
+  const { token } = Taro.getStorageSync(TOKEN) || {}
+  if(!token) return false
+  if(!returnHeaders) return token
+  return {
+    Authorization: `Basic ${token}`
+  }
+}
+
+export const setToken = (token: string) => {
+  Taro.setStorageSync(TOKEN, { token })
+}
+
+export const clearToken = () => Taro.setStorageSync(TOKEN, {})
+
+export const createUserAuth = ({ mobile, password }) => {
+  return {
+    Authorization: `Basic ${btoa(encodeURI(`${mobile}:${password}`))}`
+  }
+}
+
+const TARO_APP_MOCK_LOGON_MAP: any = {
+  "process.env.TARO_APP_DEFAULT_FATHER_ID": {
+    mobile: process.env.TARO_APP_MOCK_FATHER_MOBILE,
+    password: process.env.TARO_APP_MOCK_FATHER_PASSWORD,
+    email: process.env.TARO_APP_MOCK_FATHER_EMAIL
   },
-  "process.env.DEFAULT_MATHER_ID": {
-    mobile: process.env.MOCK_MOTHER_MOBILE,
-    password: process.env.MOCK_MOTHER_PASSWORD,
-    email: process.env.MOCK_MOTHER_EMAIL
+  "process.env.TARO_APP_DEFAULT_MATHER_ID": {
+    mobile: process.env.TARO_APP_MOCK_MOTHER_MOBILE,
+    password: process.env.TARO_APP_MOCK_MOTHER_PASSWORD,
+    email: process.env.TARO_APP_MOCK_MOTHER_EMAIL
   },
-  "process.env.DEFAULT_GRANDPA_ID": {
-    mobile: process.env.MOCK_GRANDPA_MOBILE,
-    password: process.env.MOCK_GRANDPA_PASSWORD,
-    email: process.env.MOCK_GRANDPA_EMAIL
+  "process.env.TARO_APP_DEFAULT_GRANDPA_ID": {
+    mobile: process.env.TARO_APP_MOCK_GRANDPA_MOBILE,
+    password: process.env.TARO_APP_MOCK_GRANDPA_PASSWORD,
+    email: process.env.TARO_APP_MOCK_GRANDPA_EMAIL
   },
-  "process.env.DEFAULT_GRANDMA_ID": {
-    mobile: process.env.MOCK_GRANDMA_MOBILE,
-    password: process.env.MOCK_GRANDMA_PASSWORD,
-    email: process.env.MOCK_GRANDMA_EMAIL
+  "process.env.TARO_APP_DEFAULT_GRANDMA_ID": {
+    mobile: process.env.TARO_APP_MOCK_GRANDMA_MOBILE,
+    password: process.env.TARO_APP_MOCK_GRANDMA_PASSWORD,
+    email: process.env.TARO_APP_MOCK_GRANDMA_EMAIL
   },
 }
 
-export default function(user: string) {
+export default async function(user: string) {
   return request<any>('/api/user/logon/account', {
     method: 'POST',
     data: { 
-      env: REACT_APP_ENV || 'dev',
-      ...MOCK_LOGON_MAP[user] || MOCK_LOGON_MAP['process.env.DEFAULT_FATHER_ID'],
+      env: process.env.NODE_ENV === 'development' ? 'dev' : 'prod',
+      ...TARO_APP_MOCK_LOGON_MAP[user] || TARO_APP_MOCK_LOGON_MAP['process.env.TARO_APP_DEFAULT_FATHER_ID'],
     },
     mis: false,
+  })
+  .then(data => {
+    setToken(data.token)
+    return data 
   });
 }

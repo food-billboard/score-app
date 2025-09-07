@@ -1,13 +1,13 @@
-import { Form, Button, Space, Toast } from 'antd-mobile';
+import { Form, Button, Space, Toast } from '@nutui/nutui-react-taro';
 import { useCallback } from 'react';
-import { history } from 'umi';
+import Taro from '@tarojs/taro';
+import Page from '@/components/Page';
 import BackButton from '@/components/BackButton';
-import { getQuery } from '@/utils/tool'
+import { View } from '@tarojs/components';
 import FormContent from './components/Form';
-import styles from './index.less';
+import styles from './index.module.less';
 
 const Score = () => {
-
   const [form] = Form.useForm();
 
   const onFinish = useCallback(async () => {
@@ -16,13 +16,15 @@ const Score = () => {
       .then((values) => {
         // return postScoreMemory({
         //   ...values,
-        //   target_user: getQuery()['target_user'] 
+        //   target_user: getQuery()['target_user']
         // });
       })
       .then(() => {
-        Toast.show({
-          afterClose: () => {
-            history.replace('/');
+        Toast.show('page-score', {
+          onClose: () => {
+            Taro.redirectTo({
+              url: '/',
+            });
           },
           content: '积分成功~',
         });
@@ -31,22 +33,25 @@ const Score = () => {
   }, []);
 
   return (
-    <div className={styles['edit']}>
-      <FormContent
-        formProps={{
-          onFinish,
-          form,
-          footer: (
-            <Space block align="center" className={styles['edit-footer']}>
-              <BackButton />
-              <Button type="submit" block color="primary">
-                提交
-              </Button>
-            </Space>
-          ),
-        }}
-      />
-    </div>
+    <Page>
+      <Toast id="page-score" />
+      <View className={styles['edit']}>
+        <FormContent
+          formProps={{
+            onFinish,
+            form,
+            footer: (
+              <Space align="center" className={styles['edit-footer']}>
+                <BackButton />
+                <Button nativeType="submit" type="primary" block>
+                  提交
+                </Button>
+              </Space>
+            ),
+          }}
+        />
+      </View>
+    </Page>
   );
 };
 

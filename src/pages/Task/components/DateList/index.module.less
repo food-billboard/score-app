@@ -1,21 +1,27 @@
 .date-list {
   background-color: white;
-  padding: 1rem;
+  padding: .5rem;
   box-sizing: border-box;
   overflow: hidden;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-bottom-right-radius: .5rem;
+  border-bottom-left-radius: .5rem;
+  position: sticky;
+  top: 0;
+  z-index: 1;
   &-select {
-    padding: 1rem;
+    padding: .5rem;
+    font-size: .8rem;
   }
   &-main {
     flex: 1;
     overflow-x: auto;
-    display: flex;
-    flex-wrap: nowrap;
+    font-size: .8rem;
     &-item {
-      padding: 1rem;
+      width: 2.6rem;
+      height: 2.6rem;
       box-sizing: border-box;
       white-space: nowrap;
       text-align: center;
@@ -24,17 +30,21 @@
       justify-content: center;
       align-items: center;
       border-radius: 25%;
-      & div {
-        font-size: .8em;
+      flex-shrink: 0;
+      &-day {
+        
+      }
+      &-title {
+        font-size: .6rem;
         color: #999;
       }
     }
     &-item-month {
-      font-size: .6em !important;
+      font-size: .5rem !important;
     }
     &-item-today,
     &-item-active {
-      background-color: var(--adm-color-primary);
+      background-color: var(--nutui-color-primary);
     }
     &-item-today:not(&-item-active) {
       background-color: var(--opacity-color-primary);
@@ -42,6 +52,7 @@
 
   }
   &-detail {
-    padding: 1rem;
+    padding: .5rem;
+    font-size: .8rem;
   }
 }

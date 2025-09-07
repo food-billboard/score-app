@@ -1,15 +1,17 @@
-import { Button } from 'antd-mobile';
-import type { ButtonProps } from 'antd-mobile'
+import { Button } from '@nutui/nutui-react-taro';
+import type { ButtonProps } from '@nutui/nutui-react-taro'
 import { useCallback } from 'react';
-import { history } from 'umi';
+import Taro from '@tarojs/taro';
 
 const BackButton = (props: Partial<ButtonProps>) => {
   const handleBack = useCallback(() => {
-    history.replace('/');
+    Taro.redirectTo({
+      url: '/'
+    })
   }, []);
 
   return (
-    <Button block color="primary" fill="outline" {...props} onClick={handleBack}>
+    <Button block type="primary" fill="outline" {...props} onClick={handleBack}>
       返回
     </Button>
   );

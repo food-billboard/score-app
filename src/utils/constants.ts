@@ -1,3 +1,8 @@
+import { EventEmitter } from 'eventemitter3'
+import { getUserInfo as getUserInfoData } from '../services/base'
+
+export const Event = new EventEmitter()
+
 export const AWARD_CYCLE_ENUM = {
   NONE: '无限制',
   WEEK: '周',
@@ -21,13 +26,23 @@ let USER_INFO: {
   __user__: ''
 }
 
+export async function fetchUserInfo(update=false) {
+  return getUserInfoData()
+  .then(data => {
+    setUserInfo(data, update)
+  })
+}
+
 export function getUserInfo() {
   return USER_INFO
 }
 
-export function setUserInfo(value: any) {
+export function setUserInfo(value: any, update=false) {
   USER_INFO = {
     ...USER_INFO,
     ...value
+  }
+  if(update) {
+    Event.emit('update')
   }
 }

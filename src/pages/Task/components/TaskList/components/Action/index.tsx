@@ -1,65 +1,59 @@
-import { useCallback, useState } from 'react';
-import {
-  TextArea,
-  Button,
-  CapsuleTabs,
-  Modal,
-  Stepper,
-} from 'antd-mobile';
-import { QuestionCircleOutline } from 'antd-mobile-icons';
+import { useCallback, useMemo, useState } from 'react';
+import { TextArea, Button, Tabs, InputNumber } from '@nutui/nutui-react-taro';
+import { Ask } from '@nutui/icons-react-taro';
 import { useDebounceFn } from 'ahooks';
+import { View, Text, Image } from '@tarojs/components';
 import { putScoreMemory } from '@/services/base';
-import styles from './index.less';
+import { Dialog } from '@/components/Dialog';
+import { fetchUserInfo } from '@/utils/constants'
+import styles from './index.module.less';
 
 const Question = () => {
-  const [visible, setVisible] = useState(false);
 
   return (
     <>
-      <QuestionCircleOutline
+      <Ask
         style={{ marginLeft: 8 }}
-        onClick={() => setVisible(true)}
-      />
-      <Modal
-        actions={[]}
-        visible={visible}
-        closeOnMaskClick
-        onClose={() => setVisible(false)}
-        bodyStyle={{
-          borderTopLeftRadius: '8px',
-          borderTopRightRadius: '8px',
+        onClick={() => {
+          Dialog.open({
+            footer: null,
+            closeOnOverlayClick: true,
+            onClose: Dialog.close,
+            title: '打分说明',
+            content: (
+              <View className={styles['question']}>
+                <View className={styles['question-section']}>
+                  <Text>已完成</Text>
+                  <Text>表示已完成，奖励星星，日常任务建议1-3星。</Text>
+                </View>
+                <View className={styles['question-section']}>
+                  <Text>待定</Text>
+                  <Text>正在进行中，或者撤销打卡，也可标记为待定，</Text>
+                </View>
+                <View className={styles['question-section']}>
+                  <Text>未完成</Text>
+                  <Text>扣星{'>'}0，作为警告和惩罚，建议适当扣取。</Text>
+                </View>
+                <View className={styles['question-section']}>
+                  <Text>不评分</Text>
+                  <Text>不扣星，因其它原因无法达成或警告。</Text>
+                </View>
+              </View>
+            ),
+          });
         }}
-        header={'打分说明'}
-        content={
-          <div className={styles['question']}>
-            <div className={styles['question-section']}>
-              <span>已完成</span>
-              <span>表示已完成，奖励星星，日常任务建议1-3星。</span>
-            </div>
-            <div className={styles['question-section']}>
-              <span>待定</span>
-              <span>正在进行中，或者撤销打卡，也可标记为待定，</span>
-            </div>
-            <div className={styles['question-section']}>
-              <span>未完成</span>
-              <span>扣星{'>'}0，作为警告和惩罚，建议适当扣取。</span>
-            </div>
-            <div className={styles['question-section']}>
-              <span>不评分</span>
-              <span>不扣星，因其它原因无法达成或警告。</span>
-            </div>
-          </div>
-        }
-      ></Modal>
+      />
     </>
   );
 };
+
+const TABS_LIST = ['DONE', 'TODO', 'DEAL']
 
 const Action = (props: {
   value: API_SCORE.GetScoreMemoryListData & {
     defaultScoreType: string;
   };
-  onClose?: () => void 
+  onClose?: () => void;
 }) => {
   const { value, onClose } = props;
   const {
@@ -79,8 +73,13 @@ const Action = (props: {
 
   const [actionLoading, setActionLoading] = useState(false);
 
+  const tabIndex = useMemo(() => {
+    return TABS_LIST.indexOf(templateActiveKey)
+  }, [templateActiveKey])
+
   const onActiveKeyChange = useCallback(
-    (activeKey: string) => {
+    (index: number) => {
+      const activeKey = TABS_LIST[index]
       setTemplateActiveKey(activeKey);
 
       if (activeKey === score_type) {
@@ -121,6 +120,8 @@ const Action = (props: {
         // 失败提示
       } finally {
         setActionLoading(false);
+        fetchUserInfo(true)
+        onClose?.()
       }
     },
     {
@@ -129,109 +130,118 @@ const Action = (props: {
   );
 
   return (
-    <div className={styles['action']}>
-      <div>
-        <div className={styles['action-main']}>
-          <div className={styles['action-main-header']}>
-            <div className={styles['action-main-header-image']}>
-              <img src={target_classify_image} />
-            </div>
-            <div className={styles['action-main-header-title']}>
+    <View className={styles['action']}>
+      <View>
+        <View className={styles['action-main']}>
+          <View className={styles['action-main-header']}>
+            <View className={styles['action-main-header-image']}>
+              <Image
+                src={target_classify_image}
+                mode="aspectFit"
+                className={styles['img']}
+              />
+            </View>
+            <View className={styles['action-main-header-title']}>
               {target_classify_name}
-            </div>
-            <div className={styles['action-main-header-button']}>xx</div>
-          </div>
-          <CapsuleTabs
-            activeKey={templateActiveKey}
+            </View>
+            <View className={styles['action-main-header-button']}>xx</View>
+          </View>
+          <Tabs
+            value={tabIndex}
             onChange={onActiveKeyChange}
+            style={{
+              borderRadius: '1rem',
+            }}
           >
-            <CapsuleTabs.Tab title="完成" key="DONE">
-              <div className={styles['action-content']}>
-                <div className={styles['action-tab']}>
-                  <div className={styles['action-tab-title']}>
-                    <div>
-                      <span>加星</span>
+            <Tabs.TabPane title="完成" key="DONE">
+              <View className={styles['action-content']}>
+                <View className={styles['action-tab']}>
+                  <View className={styles['action-tab-title']}>
+                    <View className={styles['action-tab-title-label']}>
+                      <Text>加星</Text>
                       <Question />
-                    </div>
-                    <div>
-                      <Stepper
+                    </View>
+                    <View>
+                      <InputNumber
                         value={templateScore}
-                        onChange={setTemplateScore}
+                        onChange={setTemplateScore as any}
                         min={0}
                         max={5}
                       />
-                    </div>
-                  </div>
-                </div>
-                <div className={styles['action-input']}>
+                    </View>
+                  </View>
+                </View>
+                <View className={styles['action-input']}>
                   <TextArea
                     placeholder="记录孩子表现"
                     value={templateCreateContent}
                     onChange={setTemplateCreateContent}
                   />
-                </div>
-              </div>
-            </CapsuleTabs.Tab>
-            <CapsuleTabs.Tab title="待定" key="TODO">
-              <div className={styles['action-content']}>
-                <div className={styles['action-placeholder']}>加星←未评分→扣星</div>
-              </div>
-            </CapsuleTabs.Tab>
-            <CapsuleTabs.Tab
+                </View>
+              </View>
+            </Tabs.TabPane>
+            <Tabs.TabPane title="待定" key="TODO">
+              <View className={styles['action-content']}>
+                <View className={styles['action-placeholder']}>
+                  加星←未评分→扣星
+                </View>
+              </View>
+            </Tabs.TabPane>
+            <Tabs.TabPane
               title={templateScore !== 0 ? '未完成' : '不评分'}
               key="DEAL"
             >
-              <div className={styles['action-content']}>
-                <div className={styles['action-tab']}>
-                  <div
-                    className={styles['action-tab-title']}
-                  >
-                    <div className={styles['action-tab-title-deal']}>
-                      <span>扣星</span>
+              <View className={styles['action-content']}>
+                <View className={styles['action-tab']}>
+                  <View className={styles['action-tab-title']}>
+                    <View className={styles['action-tab-title-deal']}>
+                      <Text className={styles['action-tab-title-deal-label']}>
+                        扣星
+                      </Text>
                       <Question />
-                    </div>
-                    <div>
-                      <Stepper
+                    </View>
+                    <View>
+                      <InputNumber
                         value={templateScore}
-                        onChange={setTemplateScore}
+                        onChange={setTemplateScore as any}
                         min={-3}
                         max={0}
                       />
-                    </div>
-                  </div>
-                </div>
-                <div className={styles['action-input']}>
+                    </View>
+                  </View>
+                </View>
+                <View className={styles['action-input']}>
                   <TextArea
                     placeholder="记录孩子表现"
                     value={templateCreateContent}
                     onChange={setTemplateCreateContent}
                   />
-                </div>
-              </div>
-            </CapsuleTabs.Tab>
-          </CapsuleTabs>
-        </div>
-        <div className={styles['action-action']}>
+                </View>
+              </View>
+            </Tabs.TabPane>
+          </Tabs>
+        </View>
+        <View className={styles['action-action']}>
           <Button
-            shape="rounded"
+            shape="round"
             onClick={onClose}
-            color='primary'
+            type="primary"
             fill="outline"
-            style={{marginRight: '1em'}}
+            style={{ marginRight: '1em' }}
           >
             取消
           </Button>
           <Button
-            shape="rounded"
-            color="primary"
+            shape="round"
+            type="primary"
             onClick={onConfirm}
             loading={actionLoading}
           >
             确定
           </Button>
-        </div>
-      </div>
-    </div>
+        </View>
+      </View>
+    </View>
   );
 };
 

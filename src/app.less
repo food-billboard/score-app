@@ -1,0 +1,115 @@
+@font-face {
+  font-family: font_one;
+  src: url('../public/font-1.ttf');
+}
+@font-face {
+  font-family: font_two;
+  src: url('../public/font-2.ttf');
+}
+@font-face {
+  font-family: font_three;
+  src: url('../public/font-3.ttf');
+}
+@font-face {
+  font-family: font_four;
+  src: url('../public/font-4.ttf');
+}
+
+.score-app-main {
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  &-header {
+    flex-shrink: 0;
+    box-sizing: border-box;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background: #a8ff78; /* fallback for old browsers */
+    background: -webkit-linear-gradient(
+      to right,
+      rgba(120, 255, 214),
+      rgba(168, 255, 120)
+    ); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(
+      to right,
+      rgba(120, 255, 214),
+      rgba(168, 255, 120)
+    ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    &-username {
+      font-size: .8rem;
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+      &-back {
+        display: flex;
+        align-items: center;
+        margin-right: .5rem;
+      }
+    }
+  }
+  &-page {
+    flex: 1;
+    overflow-y: auto;
+  }
+}
+
+.taro_page {
+  position: relative;
+  max-height: unset !important;
+}
+
+:root,
+page {
+  font-family: font_one;
+  margin: 0;
+  font-size: var(--adm-font-size-9, 17px);
+  background: #a8ff78; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    rgba(120, 255, 214, 0.5),
+    rgba(168, 255, 120, 0.5)
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    rgba(120, 255, 214, 0.5),
+    rgba(168, 255, 120, 0.5)
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  --nutui-color-primary: #00d86a;
+  --nutui-grid-border-width: 0;
+  --nutui-grid-item-content-bg-color: transparent;
+  --nutui-grid-item-content-padding: .4rem .2rem;
+  --nutui-tabs-titles-background-color: transparent;
+  --nutui-tabs-titles-height: 2.6rem;
+  .nut-grid-item-content-surround {
+    border: none;
+  }
+  .nut-grid-item-content-border {
+    border-right-width: 0px;
+    border-bottom-width: 0px;
+  }
+  .nut-grid-border {
+    border-top-width: 0px;
+    border-left-width: 0px;
+  }
+}
+
+.t-c {
+  text-align: center;
+}
+.t-r {
+  text-align: right;
+}
+.j-c {
+  justify-content: center;
+}
+button,
+input {
+  font: var(--adm-font-family);
+}

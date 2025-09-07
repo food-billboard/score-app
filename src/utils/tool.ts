@@ -1,6 +1,5 @@
 
 import qs from 'querystring'
-import { history } from 'umi';
 
 // 处理query 传参的时候导致的空字符串查询问题（后端不愿意给处理）
 export const formatQuery = (query: any ={})=>{

@@ -5,7 +5,7 @@ export async function getUserInfo() {
   return request<any>('/api/user/customer', {
     method: 'GET',
     params: {
-      _id: process.env.DEFAULT_CHILD_ID
+      _id: process.env.TARO_APP_DEFAULT_CHILD_ID
     }
   });
 }

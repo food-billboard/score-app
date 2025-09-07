@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { getScoreClassifyList } from '@/services/base';
-import styles from './index.less';
+import styles from './index.module.less';
 import { useDebounceEffect } from 'ahooks';
+import { View } from '@tarojs/components'
 
 const ContentSelect = (props: {
   value?: string;
@@ -51,25 +52,25 @@ const ContentSelect = (props: {
   );
 
   return (
-    <div className={styles['content-picker']}>
+    <View className={styles['content-picker']}>
       {dataSource.map((item) => {
         return (
-          <div
+          <View
             key={item.value}
             onClick={() => {
               onSelect?.(item.value, item);
             }}
           >
             {item.label}
-          </div>
+          </View>
         );
       })}
       {
         !dataSource.length && (
-          <div className={styles['content-picker-placeholder']}>输入积分原因进行模糊检索</div>
+          <View className={styles['content-picker-placeholder']}>输入积分原因进行模糊检索</View>
         )
       }
-    </div>
+    </View>
   );
 };
 

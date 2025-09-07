@@ -1,20 +1,22 @@
 import dayjs from 'dayjs';
 import DateList from './components/DateList';
 import TaskList from './components/TaskList';
-import styles from './index.less';
+import Page from '@/components/Page';
+import { View } from '@tarojs/components';
+import styles from './index.module.less';
 import { useState } from 'react';
 
-const PageHome = () => {
+const Task = () => {
   const [currentDate, setCurrentDate] = useState(dayjs().format('YYYY-MM-DD'));
 
   return (
-    <div className={styles['task']}>
-      <div className={styles['task-header']}>
+    <Page>
+      <View className={styles['task']}>
         <DateList value={currentDate} onChange={setCurrentDate} />
         <TaskList currentDate={currentDate} />
-      </div>
-    </div>
+      </View>
+    </Page>
   );
 };
 
-export default PageHome;
+export default Task;

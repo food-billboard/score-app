@@ -1,18 +1,19 @@
 import { useCallback, useState } from 'react';
-import { Button, Stepper } from 'antd-mobile';
+import { Button, InputNumber } from '@nutui/nutui-react-taro';
 import { postScoreExchangeMemory } from '@/services/base';
 import Carousel from './components/Carousel';
-import styles from './index.less';
-import { AWARD_CYCLE_ENUM } from '@/utils/constants';
-import { getQuery } from '@/utils/tool';
+import styles from './index.module.less';
+import { AWARD_CYCLE_ENUM, fetchUserInfo } from '@/utils/constants';
+import { View } from '@tarojs/components';
 import { getUserInfo as getUserInfoData } from '@/utils/constants';
+import Star from '@/components/Star';
 
-const AwardDetail = (props: { value: API_SCORE.GetScoreAwardData }) => {
-  const { value } = props;
-  const { _id, award_name, exchange_score, award_cycle, award_cycle_count } =
+const AwardDetail = (props: { onClose: () => void, value: API_SCORE.GetScoreAwardData }) => {
+  const { value, onClose } = props;
+  const { _id, exchange_score, award_cycle, award_cycle_count, award_image_list } =
     value;
 
-  const { _id: target_user } = getUserInfoData()
+  const { _id: target_user } = getUserInfoData();
 
   const [exchangeCount, setExchangeCount] = useState(1);
 
@@ -20,76 +21,73 @@ const AwardDetail = (props: { value: API_SCORE.GetScoreAwardData }) => {
     return postScoreExchangeMemory({
       target_user,
       award: _id,
+    })
+    .then(() => {
+      onClose?.()
+      fetchUserInfo(true)
     });
-  }, [_id, target_user]);
+  }, [_id, target_user, onClose]);
 
   return (
-    <div className={styles['award-detail']}>
-      <div>
+    <View className={styles['award-detail']}>
+      <View>
         <Carousel
-          imageList={[
-            'https://t7.baidu.com/it/u=97059456,1585992153&fm=3035&app=3035&f=JPEG&size=f660,372',
-            'https://t9.baidu.com/it/u=3058309664,2827251915&fm=3035&app=3035&size=f242,162&n=0&g=0n&f=JPEG?s=F1228BF0545607C2080A6AAE0300E00A&sec=1747912451&t=0dddc642f48ecd25c00942f57b436a8a',
-            'https://t9.baidu.com/it/u=1719506008,751042043&fm=3035&app=3035&size=f242,150&n=0&f=JPEG&fmt=auto?s=5314528A8A5922CC22B04B8E0300E007&sec=1747933200&t=447dcb5c388090f819bca1ce00f581f3',
-          ]}
+          imageList={award_image_list}
         />
-        <div className={styles['award-detail-main']}>
-          <div className={styles['award-detail-main-item']}>
-            <div className={styles['award-detail-main-item-label']}>单价</div>
-            <div className={styles['award-detail-main-item-form']}>
-              <div className="star">
-                <div></div>
-                <div>{exchange_score}</div>
-              </div>
-            </div>
-          </div>
-          <div className={styles['award-detail-main-item']}>
-            <div className={styles['award-detail-main-item-label']}>
+        <View className={styles['award-detail-main']}>
+          <View className={styles['award-detail-main-item']}>
+            <View className={styles['award-detail-main-item-label']}>单价</View>
+            <View className={styles['award-detail-main-item-form']}>
+              <Star>{exchange_score}</Star>
+            </View>
+          </View>
+          <View className={styles['award-detail-main-item']}>
+            <View className={styles['award-detail-main-item-label']}>
               兑换规则
-            </div>
-            <div className={styles['award-detail-main-item-form']}>
+            </View>
+            <View className={styles['award-detail-main-item-form']}>
               {award_cycle === 'NONE'
                 ? `无限制`
                 : `每${
                     (AWARD_CYCLE_ENUM as any)[award_cycle] || '-'
                   }${award_cycle_count}次`}
-            </div>
-          </div>
-          <div className={styles['award-detail-main-item']}>
-            <div className={styles['award-detail-main-item-label']}>数量</div>
-            <div className={styles['award-detail-main-item-form']}>
-              <Stepper
+            </View>
+          </View>
+          <View className={styles['award-detail-main-item']}>
+            <View className={styles['award-detail-main-item-label']}>数量</View>
+            <View className={styles['award-detail-main-item-form']}>
+              <InputNumber
                 min={1}
                 value={exchangeCount}
                 onChange={(value) => {
-                  let realValue = Math.max(1, value);
+                  let realValue = Math.max(1, Number(value));
                   realValue = parseInt(realValue.toFixed(0));
                   realValue = Number.isNaN(realValue) ? 1 : realValue;
                   setExchangeCount(realValue);
                 }}
               />
-            </div>
-          </div>
-        </div>
-        <div className={styles['award-detail-action']}>
-          <div className={styles['award-detail-action-account']}>
-            <div className="star">
-              <div></div>
-              <div>{exchange_score * exchangeCount}</div>
-            </div>
-          </div>
+            </View>
+          </View>
+        </View>
+        <View className={styles['award-detail-action']}>
+          <View className={styles['award-detail-action-account']}>
+            <Star>
+              {exchange_score * exchangeCount}
+            </Star>
+          </View>
           <Button
-            shape="rounded"
+            shape="round"
             block
             disabled={false}
-            color="primary"
+            type="primary"
             onClick={exchange}
+            style={{width: '50vw'}}
           >
             兑换
           </Button>
-        </div>
-      </div>
-    </div>
+        </View>
+      </View>
+    </View>
   );
 };
 

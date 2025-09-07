@@ -1,10 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
-import { FrownOutline, SmileOutline } from 'antd-mobile-icons'
-import { Popup } from 'antd-mobile'
+import { Close, Add } from '@nutui/icons-react-taro'
+import { Popup } from '@nutui/nutui-react-taro'
+import { View, Image, Text } from '@tarojs/components'
 import dayjs from 'dayjs'
+import classnames from 'classnames'
 import { getScorePrimaryClassifyList, getScoreMemoryList } from '@/services/base';
 import ScoreAction from './components/Action'
-import styles from './index.less';
+import styles from './index.module.less';
 
 type CurrentData = API_SCORE.GetScoreMemoryListData & {
   defaultScoreType: string 
@@ -45,28 +47,28 @@ const TaskList = (props: { currentDate: string }) => {
     if(score_type === 'TODO') {
       return (
         <>
-          <FrownOutline onClick={handleScore.bind(null, 'DEAL', data)} color={false ? '#f4bc6f' : 'gray'} />
-          <SmileOutline onClick={handleScore.bind(null, 'DONE', data)} color={true ? '#f4bc6f' : 'gray'} />
+          <Close onClick={handleScore.bind(null, 'DEAL', data)} color={'gray'} />
+          <Add className={styles['icon-last']} onClick={handleScore.bind(null, 'DONE', data)} color={'gray'} />
         </>
       )
     }
     if(score_type === 'DONE') {
       return (
         <>
-          <span>+{target_score}</span>
-          <SmileOutline onClick={handleScore.bind(null, 'DONE', data)} color={'#f4bc6f'} />
+          <Add onClick={handleScore.bind(null, 'DONE', data)} color={'#f4bc6f'} />
+          <Text className={classnames(styles['icon-text'], styles['icon-last'])}>+{target_score}</Text>
         </>
       )
     }
     if(target_score === 0) {
       return (
-        <FrownOutline onClick={handleScore.bind(null, 'DEAL', data)} color={'#f66'} />
+        <Close onClick={handleScore.bind(null, 'DEAL', data)} color={'#f66'} />
       )
     }
     return (
       <>
-        <span>{target_score}</span>
-        <FrownOutline onClick={handleScore.bind(null, 'DEAL', data)} color={'#f00'} />
+        <Close onClick={handleScore.bind(null, 'DEAL', data)} color={'#f00'} />
+        <Text className={classnames(styles['icon-text'], styles['icon-last'])}>{target_score}</Text>
       </>
     )
   }, [handleScore])
@@ -82,20 +84,20 @@ const TaskList = (props: { currentDate: string }) => {
 
   useEffect(() => {
     fetchScoreMemoryData()
-  }, [currentDate])
+  }, [currentDate, currentData])
 
   return (
-    <div className={styles['task-list']}>
+    <View className={styles['task-list']}>
       {primaryClassifyList
         .filter((item) => taskList.some(task => task.target_primary_classify === item._id))
         .map((item) => {
           const { _id, content } = item;
           return (
-            <div key={_id} className={styles['task-list-item']}>
-              <div className={styles['task-list-item-header']}>
-                <div>{content}</div>
-              </div>
-              <div className={styles['task-list-item-main']}>
+            <View key={_id} className={styles['task-list-item']}>
+              <View className={styles['task-list-item-header']}>
+                <View className={styles['task-list-item-header-main']}>{content}</View>
+              </View>
+              <View className={styles['task-list-item-main']}>
                 {taskList
                   .filter((task) => task.target_primary_classify === _id)
                   .map((item) => {
@@ -105,47 +107,45 @@ const TaskList = (props: { currentDate: string }) => {
                       target_classify_image,
                     } = item;
                     return (
-                      <div
+                      <View
                         key={_id}
                         className={styles['task-list-item-main-data']}
                       >
-                        <div
+                        <View
                           className={styles['task-list-item-main-data-image']}
                         >
-                          <img src={target_classify_image} />
-                        </div>
-                        <div
+                          <Image src={target_classify_image} mode="aspectFit" className={styles['img']} />
+                        </View>
+                        <View
                           className={styles['task-list-item-main-data-title']}
                         >
                           {target_classify_name}
-                        </div>
-                        <div
+                        </View>
+                        <View
                           className={styles['task-list-item-main-data-score']}
                         >
                           {
                             renderActionResult(item)
                           }
-                        </div>
-                      </div>
+                        </View>
+                      </View>
                     );
                   })}
-              </div>
-            </div>
+              </View>
+            </View>
           );
         })}
       <Popup 
         visible={!!currentData}
-        closeOnMaskClick
+        closeOnOverlayClick
         destroyOnClose
         onClose={() => setCurrentData(false)}
-        bodyStyle={{
-          borderTopLeftRadius: '8px',
-          borderTopRightRadius: '8px',
-        }}
+        round
+        position="bottom"
       >
         <ScoreAction onClose={() => setCurrentData(false)} value={currentData as CurrentData} />
       </Popup>
-    </div>
+    </View>
   );
 };
 

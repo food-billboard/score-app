@@ -1,27 +1,9 @@
-import { Toast } from 'antd-mobile';
 import axios from 'axios';
 import type { AxiosRequestConfig } from 'axios'
-import { debounce } from 'lodash'
+import { debounce, get } from 'lodash'
+import Taro from '@tarojs/taro';
 import { formatQuery } from './tool'
-
-const codeMessage = {
-  200: '服务器成功返回请求的数据。',
-  201: '新建或修改数据成功。',
-  202: '一个请求已经进入后台排队（异步任务）。',
-  204: '删除数据成功。',
-  400: '发出的请求有错误，服务器没有进行新建或修改数据的操作。',
-  401: '用户没有权限（令牌、用户名、密码错误）。',
-  403: '用户得到授权，但是访问是被禁止的。',
-  404: '发出的请求针对的是不存在的记录，服务器没有进行操作。',
-  405: '请求方法不被允许。',
-  406: '请求的格式不可得。',
-  410: '请求的资源被永久删除，且不会再得到的。',
-  422: '当创建一个对象时，发生一个验证错误。',
-  500: '服务器发生错误，请检查服务器。',
-  502: '网关错误。',
-  503: '服务不可用，服务器暂时过载或维护。',
-  504: '网关超时。',
-};
+import { getToken } from './mockLogin';
 
 interface RequestOptions extends AxiosRequestConfig{
   mis?: boolean
@@ -30,7 +12,9 @@ interface RequestOptions extends AxiosRequestConfig{
 
 // 未登录的多次触发处理
 const dispatchLogin = debounce(function(err: any){
-  Toast.show(err.msg || '未登录请先登录');
+  Taro.showToast({
+    title: err.errMsg || '未登录请先登录'
+  })
 }, 1000, {'leading': true, 'trailing': false} )
 
 // 处理报错
@@ -42,7 +26,9 @@ export const misManage = (error: any) => {
     if( error.errorType === 'system' && err.code === '401' ){
       return dispatchLogin(err);
     }
-    Toast.show(err.msg || '网络错误');
+    Taro.showToast({
+      title: err.errMsg || '网络错误'
+    })
     return
   }
   const { response } = error;
@@ -51,13 +37,16 @@ export const misManage = (error: any) => {
   }
   if (response && response.status) {
     // const errorText = codeMessage[response.status] || response.statusText;
-    const { status, url } = response;
-    Toast.show({
-      content: `请求错误 ${status}: ${url}`
-    });
+    const { status, url, data } = response;
+    // Taro.showToast({
+    //   title: `请求错误 ${status}: ${url}`
+    // });
+    Taro.showToast({
+      title: get(data, 'res.errMsg') || `请求错误 ${status}: ${url}`
+    })
   } else if (!response) {
-    Toast.show({
-      content: '您的网络发生异常，无法连接服务器'
+    Taro.showToast({
+      title: '您的网络发生异常，无法连接服务器'
     });
   }
 }
@@ -65,14 +54,16 @@ export const misManage = (error: any) => {
 const request = async <ResBody>(url: string, setting: RequestOptions = {} as RequestOptions)=>{
 
   // 过滤URL参数
-  const { params, mis=true, origin, ...options } = setting
+  const { params, mis=true, origin, headers, ...options } = setting
 
   let body: any
   let error: any
 
   try{
     body = await axios.request({
+      baseURL: process.env.TARO_APP_REQUEST_API,
       url,
+      headers: getToken(true) || {},
       ...options,
       ...(params ? { params: formatQuery(params) } : {}),
     });
@@ -86,7 +77,8 @@ const request = async <ResBody>(url: string, setting: RequestOptions = {} as Req
     error.errorType = 'system';
     error.messageType = 'response';
     if(mis) misManage(error);
-    throw error
+    // throw error
+    return {}
   }
 
   // 业务错误，客户端返回的 statusCode === 200 但是response.body 中的success 返回为 false的错误

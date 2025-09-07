@@ -1,4 +1,6 @@
-import { Form, TextArea, FormProps, Input } from 'antd-mobile';
+import { Form, TextArea, Input } from '@nutui/nutui-react-taro';
+import type { FormProps } from '@nutui/nutui-react-taro/dist/types/packages/form/form.taro';
+import { View } from '@tarojs/components';
 import ContentSelect from '../ContentSelect';
 
 const Edit = (props: {
@@ -9,8 +11,10 @@ const Edit = (props: {
 
   const { form } = formProps || {};
 
+  const create_content = Form.useWatch('create_content', form);
+
   return (
-    <div>
+    <View>
       <Form {...formProps}>
         <Form.Item
           name="target_score"
@@ -26,28 +30,24 @@ const Edit = (props: {
           rules={[{ required: true }]}
           initialValue={''}
         >
-          <TextArea placeholder="请输入积分原因" autoSize={{ minRows: 2 }} />
+          <TextArea placeholder="请输入积分原因" autoSize />
         </Form.Item>
         <Form.Item label="描述" name="create_description">
           <TextArea placeholder="请输入描述" />
         </Form.Item>
-        <Form.Item dependencies={['create_content']}>
-          {({ getFieldValue }) => {
-            return (
-              <ContentSelect
-                create_content={getFieldValue('create_content') || ''}
-                onSelect={(_, { label, description }) => {
-                  form?.setFieldsValue({
-                    create_content: label,
-                    create_description: description,
-                  });
-                }}
-              />
-            );
-          }}
+        <Form.Item>
+          <ContentSelect
+            create_content={create_content || ''}
+            onSelect={(_, { label, description }) => {
+              form?.setFieldsValue({
+                create_content: label,
+                create_description: description,
+              });
+            }}
+          />
         </Form.Item>
       </Form>
-    </div>
+    </View>
   );
 };
 

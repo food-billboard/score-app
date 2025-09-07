@@ -1,30 +1,29 @@
 .action {
-
-  padding: 2rem 2rem 0 2rem;
+  padding: 1rem 1rem 0 1rem;
   & > div {
     background-color: white;
-    border-top-left-radius: 1rem;
-    border-top-right-radius: 1rem;
+    border-top-left-radius: .5rem;
+    border-top-right-radius: .5rem;
     overflow: hidden;
   }
   &-main {
-    padding: 1rem;
     box-sizing: border-box;
+    --nutui-tabs-line-border-radius: 1rem;
+    --nutui-tabs-tabpane-padding: .5rem 0;
     &-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 2rem;
+      margin-bottom: 1rem;
       &-image {
-        width: 6rem;
-        height: 6rem;
+        width: 3rem;
+        height: 3rem;
         border-radius: 50%;
         overflow: hidden;
-        margin-right: 1rem;
-        & img {
+        margin-right: .5rem;
+        & .img {
           width: 100%;
           height: 100%;
-          object-fit: cover;
         }
       }
       &-title {
@@ -34,20 +33,23 @@
         overflow: hidden;
       } 
       &-button {
-        margin-left: 1rem;
+        margin-left: .5rem;
       }
     }
+    .nut-tabs-list {
+      border-radius: 1rem;
+    }
     .action-content {
-      height: 20rem;
+      height: 10rem;
       border: 2px solid #eee;
-      border-radius: 1.5rem;
+      border-radius: .75rem;
       box-sizing: border-box;
-      padding: 2rem;
+      padding: 1rem;
       display: flex;
       flex-direction: column;
       textarea {
         background-color: #eee;
-        padding: .5rem;
+        padding: .25rem;
         height: 100%;
       }
     }
@@ -56,10 +58,18 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        margin-bottom: 2rem;
+        margin-bottom: .5rem;
+        &-label {
+          display: flex;
+          align-items: center;
+        }
       }
-      &-title-deal span {
-        color: red;
+      &-title-deal {
+        display: flex;
+        align-items: center;
+        &-label {
+          color: red;
+        }
       }
     }
     .action-placeholder {
@@ -70,6 +80,7 @@
     }
     .action-input {
       flex: 1;
+      --nutui-textarea-padding: 0;
       & > div {
         height: 100%;
       }
@@ -79,7 +90,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 20%;
+    padding: .5rem 20%;
     box-sizing: border-box;
     button {
       width: 100%;
@@ -88,14 +99,14 @@
 }
 
 .question {
-  font-size: 1.2rem;
+  font-size: .6rem;
   &-section {
-    margin-bottom: 1.5rem;
+    margin-bottom: .75rem;
     & span:nth-of-type(1) {
       display: inline-block;
-      width: 4em;
+      width: 8em;
       font-weight: bold;
-      margin-right: 1em;
+      margin-right: 2em;
       text-align: right;
     }
     & span:nth-of-type(2) {

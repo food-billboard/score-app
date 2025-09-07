@@ -1,0 +1,14 @@
+.star {
+  display: flex;
+  align-items: center;
+  padding: var(--star-padding, .1rem);
+  &-icon {
+    margin-right: var(--star-margin, .5rem);
+    &::after {
+      content: "⭐️";
+    }
+  }
+  &-label {
+    color: var(--nutui-color-primary);
+  }
+}

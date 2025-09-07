@@ -1,31 +1,50 @@
-import { useCallback } from 'react';
-import { Swiper, ImageViewer } from 'antd-mobile';
-import styles from './index.less';
+import { useCallback, useState } from 'react';
+import { Swiper, ImagePreview } from '@nutui/nutui-react-taro';
+import { View, Image } from '@tarojs/components'
+import styles from './index.module.less';
 
 const Carousel = (props: { imageList: string[] }) => {
-  const { imageList } = props;
+  const { imageList=[] } = props;
+
+  const [visible, setVisible] = useState(false)
+  const [index, setIndex] = useState(0)
 
   const onClick = useCallback((index: number) => {
-    ImageViewer.Multi.show({
-      images:imageList,
-      defaultIndex: index,
-    })
+    setVisible(true)
+    setIndex(index)
   }, []);
 
   return (
-    <div className={styles['carousel']}>
-      <Swiper>
+    <View className={styles['carousel']}>
+      <Swiper height={200}>
         {imageList.map((image, index) => (
           <Swiper.Item key={index}>
-            <img
+            <Image
               className={styles['carousel-item']}
               src={image}
               onClick={onClick.bind(null, index)}
+              mode="aspectFill"
             />
           </Swiper.Item>
         ))}
       </Swiper>
-    </div>
+      <ImagePreview
+        autoPlay
+        images={imageList.map(item => ({ src: item }))}
+        visible={visible}
+        value={index}
+        defaultValue={0}
+        indicator
+        onChange={(value) => {
+          setIndex(value)
+        }}
+        onClose={() => {
+          setVisible(false)
+        }}
+      >
+
+      </ImagePreview>
+    </View>
   );
 };
 
