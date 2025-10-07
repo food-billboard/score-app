@@ -8,8 +8,10 @@ import { ConfigProvider } from '@nutui/nutui-react-taro';
 import { View, Image } from '@tarojs/components';
 import { getUserInfo as getUserInfoData, fetchUserInfo, Event } from './utils/constants';
 import ToastDom from './components/Toast';
-import DialogDom from './components/Dialog';
+import DialogDom, { Dialog } from './components/Dialog';
 import Star from '@/components/Star';
+import '../public/iconfont/iconfont.css'
+
 
 function App(props: any) {
   const { username, score, avatar } = getUserInfoData();

@@ -16,8 +16,9 @@
     &-main {
       box-sizing: border-box;
       padding: 0 .5rem;
+
       &-data {
-        margin-bottom: .25rem;
+        margin-bottom: 1rem;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -53,13 +54,19 @@
           --nut-icon-width: .8rem;
           --nut-icon-height: .8rem;
           .icon-last {
-            margin-left: .2rem;
+            margin-left: .6rem;
           }
           .icon-text {
             font-size: 1rem;
+            color: #e46c76;
           }
         }
       }
     }
   }
+}
+
+.icon-reverse {
+  transform-origin: center center;
+  transform: rotate(180deg);
 }

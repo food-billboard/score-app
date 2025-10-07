@@ -15,7 +15,7 @@ const PageHome = () => {
       closeOnOverlayClick: false,
       duration: 0,
     });
-
+    
     mockLogin(role)
       .then(fetchUserInfo)
       .then((value) => {
@@ -23,11 +23,11 @@ const PageHome = () => {
       })
       .then(() => {
         Toast.hide('page-home');
-        Taro.navigateTo({
+        Taro.switchTab({
           url: '/pages/Task/index',
-          routeOptions: {
-            user: role 
-          }
+          // routeOptions: {
+          //   user: role 
+          // }
         })
       });
   }, []);

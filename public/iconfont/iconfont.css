@@ -1,0 +1,69 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 5035296 */
+  /* Color fonts */
+  src: 
+       url('iconfont.woff2?t=1759825293836') format('woff2'),
+       url('iconfont.woff?t=1759825293836') format('woff'),
+       url('iconfont.ttf?t=1759825293836') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.score-tubiao-jintian:before {
+  content: "\e604";
+}
+
+.score-a-020-award:before {
+  content: "\e7f3";
+}
+
+.score-a-010-gift:before {
+  content: "\e7f4";
+}
+
+.score-a-001-certificate:before {
+  content: "\e7f5";
+}
+
+.score-a-004-trophy:before {
+  content: "\e7f6";
+}
+
+.score-a-021-award:before {
+  content: "\e7f7";
+}
+
+.score-a-030-crown:before {
+  content: "\e7f8";
+}
+
+.score-a-026-goldmedal:before {
+  content: "\e7f9";
+}
+
+.score-a-003-certificate:before {
+  content: "\e7fa";
+}
+
+.score-a-002-certificate:before {
+  content: "\e7fb";
+}
+
+.score-a-012-award:before {
+  content: "\e7fc";
+}
+
+.score-heiban:before {
+  content: "\e78c";
+}
+
+.score-rili:before {
+  content: "\e78e";
+}
+

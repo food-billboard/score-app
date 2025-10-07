@@ -2,6 +2,7 @@ import { Calendar, Tabs } from '@nutui/nutui-react-taro';
 import { useCallback, useMemo, useState, useEffect } from 'react';
 import classnames from 'classnames';
 import { View, Text } from '@tarojs/components';
+import { IconFont } from '@nutui/icons-react-taro';
 import dayjs from 'dayjs';
 import styles from './index.module.less';
 
@@ -55,15 +56,19 @@ const DateList = (props: {
 
   return (
     <View className={styles['date-list']}>
-      <View className={styles['date-list-select']}>
-        <View
-          onClick={() => {
-            setStateValue(value);
-            setVisible(true);
-          }}
-        >
-          选择
-        </View>
+      <View
+        className={styles['date-list-select']}
+        onClick={() => {
+          setStateValue(value);
+          setVisible(true);
+        }}
+      >
+        <IconFont
+          size="1.6rem"
+          fontClassName="iconfont"
+          classPrefix="score"
+          name="rili"
+        />
       </View>
       <View className={styles['date-list-main']}>
         <Tabs
@@ -110,7 +115,12 @@ const DateList = (props: {
         </Tabs>
       </View>
       <View onClick={handleToday} className={styles['date-list-detail']}>
-        今天
+        <IconFont
+          size="1.6rem"
+          fontClassName="iconfont"
+          classPrefix="score"
+          name="tubiao-jintian"
+        />
       </View>
       {visible && (
         <Calendar
@@ -120,7 +130,7 @@ const DateList = (props: {
           onConfirm={(value) => {
             onChange(dayjs(value).format('YYYY-MM-DD'));
           }}
-          onDayClick={(value) => {
+          onDayClick={(value: any) => {
             setStateValue(dayjs(value).format('YYYY-MM-DD'));
           }}
           onClose={() => setVisible(false)}

@@ -1,19 +1,19 @@
-@font-face {
-  font-family: font_one;
-  src: url('../public/font-1.ttf');
-}
-@font-face {
-  font-family: font_two;
-  src: url('../public/font-2.ttf');
-}
-@font-face {
-  font-family: font_three;
-  src: url('../public/font-3.ttf');
-}
-@font-face {
-  font-family: font_four;
-  src: url('../public/font-4.ttf');
-}
+// @font-face {
+//   font-family: font_one;
+//   src: url('../public/font-1.ttf');
+// }
+// @font-face {
+//   font-family: font_two;
+//   src: url('../public/font-2.ttf');
+// }
+// @font-face {
+//   font-family: font_three;
+//   src: url('../public/font-3.ttf');
+// }
+// @font-face {
+//   font-family: font_four;
+//   src: url('../public/font-4.ttf');
+// }
 
 .score-app-main {
   height: 100vh;
@@ -81,12 +81,22 @@ page {
     rgba(120, 255, 214, 0.5),
     rgba(168, 255, 120, 0.5)
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  --opacityp5-primary: rgba(0,216,106, 0.5);
+  --opacityp2-primary: rgba(0,216,106, 0.2);
+  --opacityp1-primary: rgba(0,216,106, 0.1);
   --nutui-color-primary: #00d86a;
   --nutui-grid-border-width: 0;
   --nutui-grid-item-content-bg-color: transparent;
   --nutui-grid-item-content-padding: .4rem .2rem;
   --nutui-tabs-titles-background-color: transparent;
   --nutui-tabs-titles-height: 2.6rem;
+  --nutui-inputnumber-input-width: 50px;
+  --nutui-inputnumber-input-height: 30px;
+  --nutui-inputnumber-input-font-size: 15px;
+  .nut-inputnumber-minus .nut-icon, .nut-inputnumber-add .nut-icon {
+    width: 14px !important;
+    height: 14px !important;
+  }
   .nut-grid-item-content-surround {
     border: none;
   }

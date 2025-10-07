@@ -68,6 +68,7 @@ const request = async <ResBody>(url: string, setting: RequestOptions = {} as Req
       ...(params ? { params: formatQuery(params) } : {}),
     });
   } catch(err) {
+    console.log(err, url)
     error = err
   }
 

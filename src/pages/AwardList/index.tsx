@@ -6,7 +6,7 @@ import {
   Loading,
   Grid,
   Popup,
-  HoverButton
+  // HoverButton
 } from '@nutui/nutui-react-taro';
 import { View, Image, Text } from '@tarojs/components';
 import Page from '@/components/Page';
@@ -153,7 +153,7 @@ const AwardList = () => {
             正在拼命加载数据
           </View>
         )}
-        <HoverButton />
+        {/* <HoverButton /> */}
         <Popup
           visible={!!currentData}
           closeOnOverlayClick

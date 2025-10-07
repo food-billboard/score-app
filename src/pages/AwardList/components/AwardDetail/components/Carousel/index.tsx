@@ -16,7 +16,7 @@ const Carousel = (props: { imageList: string[] }) => {
 
   return (
     <View className={styles['carousel']}>
-      <Swiper height={200}>
+      <Swiper defaultValue={0} height={200}>
         {imageList.map((image, index) => (
           <Swiper.Item key={index}>
             <Image
@@ -32,11 +32,11 @@ const Carousel = (props: { imageList: string[] }) => {
         autoPlay
         images={imageList.map(item => ({ src: item }))}
         visible={visible}
-        value={index}
-        defaultValue={0}
+        value={index + 1}
+        defaultValue={1}
         indicator
         onChange={(value) => {
-          setIndex(value)
+          setIndex(value - 1)
         }}
         onClose={() => {
           setVisible(false)

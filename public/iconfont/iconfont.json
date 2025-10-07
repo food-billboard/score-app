@@ -1,0 +1,100 @@
+{
+  "id": "5035296",
+  "name": "score-app",
+  "font_family": "iconfont",
+  "css_prefix_text": "score-",
+  "description": "积分系统",
+  "glyphs": [
+    {
+      "icon_id": "32522661",
+      "name": "图标-今天",
+      "font_class": "tubiao-jintian",
+      "unicode": "e604",
+      "unicode_decimal": 58884
+    },
+    {
+      "icon_id": "45470802",
+      "name": "020-award",
+      "font_class": "a-020-award",
+      "unicode": "e7f3",
+      "unicode_decimal": 59379
+    },
+    {
+      "icon_id": "45470806",
+      "name": "010-gift",
+      "font_class": "a-010-gift",
+      "unicode": "e7f4",
+      "unicode_decimal": 59380
+    },
+    {
+      "icon_id": "45470814",
+      "name": "001-certificate",
+      "font_class": "a-001-certificate",
+      "unicode": "e7f5",
+      "unicode_decimal": 59381
+    },
+    {
+      "icon_id": "45470815",
+      "name": "004-trophy",
+      "font_class": "a-004-trophy",
+      "unicode": "e7f6",
+      "unicode_decimal": 59382
+    },
+    {
+      "icon_id": "45470816",
+      "name": "021-award",
+      "font_class": "a-021-award",
+      "unicode": "e7f7",
+      "unicode_decimal": 59383
+    },
+    {
+      "icon_id": "45470819",
+      "name": "030-crown",
+      "font_class": "a-030-crown",
+      "unicode": "e7f8",
+      "unicode_decimal": 59384
+    },
+    {
+      "icon_id": "45470820",
+      "name": "026-gold medal",
+      "font_class": "a-026-goldmedal",
+      "unicode": "e7f9",
+      "unicode_decimal": 59385
+    },
+    {
+      "icon_id": "45470821",
+      "name": "003-certificate",
+      "font_class": "a-003-certificate",
+      "unicode": "e7fa",
+      "unicode_decimal": 59386
+    },
+    {
+      "icon_id": "45470828",
+      "name": "002-certificate",
+      "font_class": "a-002-certificate",
+      "unicode": "e7fb",
+      "unicode_decimal": 59387
+    },
+    {
+      "icon_id": "45470830",
+      "name": "012-award",
+      "font_class": "a-012-award",
+      "unicode": "e7fc",
+      "unicode_decimal": 59388
+    },
+    {
+      "icon_id": "1166129",
+      "name": "黑板",
+      "font_class": "heiban",
+      "unicode": "e78c",
+      "unicode_decimal": 59276
+    },
+    {
+      "icon_id": "1166130",
+      "name": "日历",
+      "font_class": "rili",
+      "unicode": "e78e",
+      "unicode_decimal": 59278
+    }
+  ]
+}

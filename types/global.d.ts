@@ -10,6 +10,7 @@ declare module '*.less';
 declare module '*.scss';
 declare module '*.sass';
 declare module '*.styl';
+declare module '*.mp3';
 
 // src/typings/style.d.ts
 declare module '*.module.scss' {
