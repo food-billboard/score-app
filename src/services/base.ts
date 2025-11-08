@@ -34,6 +34,14 @@ export const postScoreExchangeMemory = (data: API_SCORE.PostScoreExchangeMemoryP
   });
 };
 
+// 兑换记录
+export const getExchangeMemoryList = (params: API_SCORE.GetExchangeMemoryListParams) => {
+  return request<API_SCORE.GetListResponse<API_SCORE.GetExchangeMemoryListData>>('/api/manage/score/memory/exchange', {
+    method: 'GET',
+    params
+  });
+};
+
 // 核销
 export const checkScoreExchangeMemory = (data: API_SCORE.CheckScoreExchangeMemoryParams) => {
   return request('/api/manage/score/memory/exchange', {

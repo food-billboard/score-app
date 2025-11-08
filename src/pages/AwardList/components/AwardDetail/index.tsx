@@ -10,8 +10,8 @@ import Star from '@/components/Star';
 
 const AwardDetail = (props: { onClose: () => void, value: API_SCORE.GetScoreAwardData }) => {
   const { value, onClose } = props;
-  const { _id, exchange_score, award_cycle, award_cycle_count, award_image_list } =
-    value;
+  const { _id, exchange_score, award_cycle, award_cycle_count, award_image_list=[] } =
+    value || {};
 
   const { _id: target_user } = getUserInfoData();
 

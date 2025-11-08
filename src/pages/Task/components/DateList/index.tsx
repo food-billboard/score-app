@@ -4,6 +4,9 @@ import classnames from 'classnames';
 import { View, Text } from '@tarojs/components';
 import { IconFont } from '@nutui/icons-react-taro';
 import dayjs from 'dayjs';
+import { action } from '@/components/MusicButton';
+import buttonMusic1 from '../../../../../public/button.mp3';
+import buttonMusic2 from '../../../../../public/button-2.mp3';
 import styles from './index.module.less';
 
 const WEEK_MAP = ['日', '一', '二', '三', '四', '五', '六'];
@@ -44,6 +47,9 @@ const DateList = (props: {
   }, [value, dateList]);
 
   const handleToday = useCallback(() => {
+    action({
+      music: buttonMusic1,
+    });
     onChange(dayjs().format('YYYY-MM-DD'));
   }, [onChange]);
 
@@ -59,6 +65,9 @@ const DateList = (props: {
       <View
         className={styles['date-list-select']}
         onClick={() => {
+          action({
+            music: buttonMusic2,
+          });
           setStateValue(value);
           setVisible(true);
         }}

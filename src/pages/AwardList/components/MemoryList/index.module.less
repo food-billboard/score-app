@@ -1,0 +1,203 @@
+.header {
+  padding: 12px;
+  background: var(--adm-color-background);
+  display: flex;
+  align-items: center;
+  position: sticky;
+  z-index: 999;
+  top: 0;
+  left: 0;
+  .left {
+    flex: auto;
+  }
+  .right {
+    flex: none;
+    padding-left: 12px;
+  }
+}
+
+.placeholder {
+  padding-top: 30vh;
+  text-align: center;
+  color: var(--adm-color-weak);
+  .loadingWrapper {
+    font-size: 1.2rem;
+    margin-bottom: 24px;
+  }
+}
+
+.award-memory-container {
+  --nutui-tabs-tabpane-padding: 0;
+  height: 80vh;
+}
+.memory-list {
+  overflow-y: auto;
+  height: 100%;
+  padding: 0 1rem;
+  &-item-deal {
+    opacity: 0.5;
+  }
+  &-item-wrapper {
+    position: relative;
+
+    /* 右上角"待兑现"标签 */
+    .status-todo {
+      position: absolute;
+      top: 0.65rem;
+      right: 0.5rem;
+      background-color: #ff6b6b;
+      color: white;
+      padding: 0.2rem 0.6rem;
+      border-radius: 0.5rem;
+      font-size: 0.7rem;
+      font-weight: bold;
+    }
+    .status-deal {
+      width: 4rem;
+      height: 4rem;
+      position: absolute;
+      top: 0.65rem;
+      right: 0.5rem;
+      border: 3px solid #ff6b6b;
+      color: #ff6b6b;
+      border-radius: 50%;
+      font-size: 0.7rem;
+      font-weight: bold;
+      transform-origin: center center;
+      transform: rotate(-20deg);
+      box-sizing: border-box;
+      padding: 0.3rem;
+      &-content {
+        box-sizing: border-box;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-top: 2px solid #ff6b6b;
+        border-bottom: 2px solid #ff6b6b;
+        border-left: 1px solid transparent;
+        border-right: 1px solid transparent;
+        border-radius: 50%;
+      }
+    }
+  }
+  &-item {
+    &:nth-of-type(1) {
+      margin-top: 0.5rem;
+    }
+    width: 100%;
+    // background-color: white;
+    margin-bottom: 0.5rem;
+    // overflow: hidden;
+    box-sizing: border-box;
+
+    /* 外层容器：黄色背景+波浪边框 */
+    padding: 0.8rem; /* 预留上下边缘波浪的空间 */
+    /* 黄色背景 */
+    background-color: #ffe566;
+    /* 关键：用径向渐变绘制上下边缘的半圆孔洞 */
+    background-image: radial-gradient(circle, transparent 50%, #ffe566 50%),
+      /* 上边缘孔洞 */ radial-gradient(circle, transparent 50%, #ffe566 50%); /* 下边缘孔洞 */
+    background-size: 1.2rem 0.4rem; /* 单个孔洞大小（宽=直径，高=半径） */
+    background-position: 0 -6px,
+      /* 上边缘：向上偏移半个半径（隐藏下半圆） */ 0 calc(100% + 6px); /* 下边缘：向下偏移半个半径 */
+    background-repeat: repeat-x; /* 水平重复排列 */
+
+    .ticket-inner {
+      /* 内层白色区域：圆角+内容区 */
+      background-color: #fff;
+      border-radius: 0.6rem; /* 内层圆角 */
+      padding: 1.5rem 0.6rem;
+      // min-height: 120px;
+    }
+
+    /* 内部内容样式（仅为示例，可根据需要调整） */
+    .ticket-content {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .ticket-icon {
+      width: 3rem;
+      height: 3rem;
+      background-color: #ffe566;
+      border-radius: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .ticket-icon .img {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .ticket-title {
+      font-size: 0.8rem;
+      font-weight: bold;
+      flex: 1;
+    }
+    .ticket-price {
+      width: 2rem;
+      height: 2rem;
+      border: 2px solid #ffe566;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: bold;
+      color: #333;
+    }
+    .ticket-info {
+      margin-top: 0.75rem;
+      padding-top: 0.75rem;
+      border-top: 1px dashed #eee;
+      display: flex;
+      justify-content: space-between;
+      color: #999;
+      font-size: 0.6rem;
+    }
+  }
+}
+.memory-list-container {
+  box-sizing: border-box;
+  padding-bottom: 2.5rem;
+}
+
+.action {
+  box-sizing: border-box;
+  padding: 1rem;
+  --nutui-button-border-radius: 1rem;
+  &-content {
+  }
+  &-footer {
+    box-sizing: border-box;
+    padding: 0 3rem;
+    &-tip {
+      border: 2px solid var(--opacityp5-primary);
+      border-radius: .5rem;
+      padding: .8rem .3rem;
+      box-sizing: border-box;
+      color: var(--nutui-color-primary);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: .5rem;
+      &-icon {
+        font-size: 1rem;
+        --nut-icon-width: 1rem;
+        --nut-icon-height: 1rem;
+        margin-right: .2rem;
+      }
+    }
+    &-date {
+      color: #999;
+      font-size: .5rem;
+      text-align: center;
+    }
+  }
+}

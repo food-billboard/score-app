@@ -6,6 +6,7 @@ import { ArrowLeft } from '@nutui/icons-react-taro';
 import './app.less';
 import { ConfigProvider } from '@nutui/nutui-react-taro';
 import { View, Image } from '@tarojs/components';
+import { action } from './components/MusicButton'
 import { getUserInfo as getUserInfoData, fetchUserInfo, Event } from './utils/constants';
 import ToastDom from './components/Toast';
 import DialogDom, { Dialog } from './components/Dialog';
@@ -80,7 +81,7 @@ function App(props: any) {
             {username}
           </View>
 
-          <Star style={{ width: '33%' }} className={'j-c'}>
+          <Star style={{ width: '33%' }} className={'j-c'} onClick={action}>
             {score}
           </Star>
           <View style={{ width: '33%' }} className="t-r">

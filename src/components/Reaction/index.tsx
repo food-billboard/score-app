@@ -7,9 +7,14 @@ export type ReactionRef = {
   open: (image: string, audio?: string) => void;
 };
 
-export type ReactionProps = {};
+export type ReactionProps = {
+  timeout?: number
+};
 
 const Reaction = forwardRef<ReactionRef, ReactionProps>((props, ref) => {
+
+  const { timeout=4000 } = props 
+
   const [image, setImage] = useState('');
   const [audio, setAudio] = useState('');
 
@@ -43,7 +48,7 @@ const Reaction = forwardRef<ReactionRef, ReactionProps>((props, ref) => {
       audioContext.destroy();
       setImage('');
       setAudio('');
-    }, 4000)
+    }, timeout)
   }, [audio]);
 
   return (
