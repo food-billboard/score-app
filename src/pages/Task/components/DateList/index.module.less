@@ -11,6 +11,8 @@
   position: sticky;
   top: 0;
   z-index: 1;
+  --nutui-tabs-tab-line-opacity: 0;
+  --nutui-tabs-titles-gap: 0;
   &-select {
     padding: .5rem 0.2rem;
   }
@@ -30,6 +32,7 @@
       align-items: center;
       border-radius: 25%;
       flex-shrink: 0;
+      line-height: 1.57;
       &-day {
         
       }
@@ -48,7 +51,9 @@
     &-item-today:not(&-item-active) {
       background-color: var(--opacity-color-primary);
     }
-
+    &-item-active &-item-day {
+      color: white;
+    }
   }
   &-detail {
     padding: .5rem 0.2rem;

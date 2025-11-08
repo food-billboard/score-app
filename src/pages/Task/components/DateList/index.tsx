@@ -1,5 +1,5 @@
 import { Calendar, Tabs } from '@nutui/nutui-react-taro';
-import { useCallback, useMemo, useState, useEffect } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import classnames from 'classnames';
 import { View, Text } from '@tarojs/components';
 import { IconFont } from '@nutui/icons-react-taro';
@@ -29,7 +29,7 @@ const DateList = (props: {
   }, []);
 
   const dateList = useMemo(() => {
-    const currentDate = dayjs(value);
+    const currentDate = dayjs();
     const prevDateList = new Array(7).fill('').map((_, index) => {
       return dayjs(currentDate).subtract(7 - index + 1, 'day');
     });
@@ -79,8 +79,8 @@ const DateList = (props: {
           name="rili"
         />
       </View>
-      <View className={styles['date-list-main']}>
-        <Tabs
+      <View className={styles['date-list-main']} id={'date-tab'}>
+        {/* <Tabs
           value={tabIndex}
           title={() => {
             return dateList.map((item) => {
@@ -91,10 +91,14 @@ const DateList = (props: {
                 <View
                   key={string}
                   onClick={handleClick.bind(null, item)}
-                  className={classnames(styles['date-list-main-item'], {
-                    [styles['date-list-main-item-today']]: today === string,
-                    [styles['date-list-main-item-active']]: value === string,
-                  })}
+                  className={classnames(
+                    `date-tab-${string}`,
+                    styles['date-list-main-item'],
+                    {
+                      [styles['date-list-main-item-today']]: today === string,
+                      [styles['date-list-main-item-active']]: value === string,
+                    },
+                  )}
                   {...(today === string ? { id: 'date-today' } : {})}
                 >
                   <Text className={styles['date-list-main-item-day']}>
@@ -121,6 +125,42 @@ const DateList = (props: {
             const string = item.format('YYYY-MM-DD');
             return <Tabs.TabPane value={string} key={string} />;
           })}
+        </Tabs> */}
+        <Tabs value={tabIndex}>
+          {dateList.map((item) => {
+            const string = item.format('YYYY-MM-DD');
+            const day = item.format('D');
+            const month = item.format('M');
+            const dom: any = (
+              <View
+                key={string}
+                onClick={handleClick.bind(null, item)}
+                className={classnames(
+                  `date-tab-${string}`,
+                  styles['date-list-main-item'],
+                  {
+                    [styles['date-list-main-item-today']]: today === string,
+                    [styles['date-list-main-item-active']]: value === string,
+                  },
+                )}
+                {...(today === string ? { id: 'date-today' } : {})}
+              >
+                <Text className={styles['date-list-main-item-day']}>{day}</Text>
+                <View
+                  className={classnames(
+                    {
+                      [styles['date-list-main-item-month']]: day === '1',
+                    },
+                    styles['date-list-main-item-title'],
+                  )}
+                >
+                  <Text>{day === '1' ? `${month}月 / ` : ''}</Text>周
+                  {WEEK_MAP[item.day()]}
+                </View>
+              </View>
+            );
+            return <Tabs.TabPane title={dom} key={string} />;
+          })}
         </Tabs>
       </View>
       <View onClick={handleToday} className={styles['date-list-detail']}>
@@ -137,12 +177,14 @@ const DateList = (props: {
           type="single"
           defaultValue={date}
           onConfirm={(value) => {
-            onChange(dayjs(value).format('YYYY-MM-DD'));
+            onChange(dayjs(typeof value === 'string' ? value : value[3]).format('YYYY-MM-DD'));
           }}
           onDayClick={(value: any) => {
             setStateValue(dayjs(value).format('YYYY-MM-DD'));
           }}
           onClose={() => setVisible(false)}
+          startDate={dateList[0].format('YYYY-MM-DD')}
+          endDate={dateList[dateList.length - 1].format('YYYY-MM-DD')}
         />
       )}
     </View>

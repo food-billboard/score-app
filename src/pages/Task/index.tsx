@@ -1,3 +1,4 @@
+import Taro from '@tarojs/taro';
 import dayjs from 'dayjs';
 import DateList from './components/DateList';
 import TaskList from './components/TaskList';
@@ -10,7 +11,9 @@ const Task = () => {
   const [currentDate, setCurrentDate] = useState(dayjs().format('YYYY-MM-DD'));
 
   return (
-    <Page>
+    <Page onBack={() => Taro.redirectTo({
+      url: '/pages/Home/index'
+    })}>
       <View className={styles['task']}>
         <DateList value={currentDate} onChange={setCurrentDate} />
         <TaskList currentDate={currentDate} />

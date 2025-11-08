@@ -33,7 +33,7 @@ const PageHome = () => {
   }, []);
 
   return (
-    <Page>
+    <Page onBack={() => {}}>
       <Toast id="page-home" />
       <View className={styles['home']}>
         <View className={styles['home-title']}>欢迎来到积了么</View>

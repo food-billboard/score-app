@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
+import Taro from '@tarojs/taro';
 import {
   InfiniteLoading,
   SearchBar,
@@ -61,7 +62,9 @@ const AwardList = () => {
   }, []);
 
   return (
-    <Page>
+    <Page onBack={() => Taro.redirectTo({
+      url: '/pages/Home/index'
+    })}>
       <View className={styles['award-list-container']}>
         <View className={styles.header}>
           <View className={styles.left}>

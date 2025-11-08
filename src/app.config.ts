@@ -21,14 +21,14 @@ export default defineAppConfig({
       {
         pagePath: 'pages/Task/index',
         text: '目标',
-        iconPath: '../public/task-icon.png',
-        selectedIconPath: '../public/task-icon.png',
+        iconPath: '/public/task-icon.png',
+        selectedIconPath: '/public/task-icon.png',
       },
       {
         pagePath: 'pages/AwardList/index',
         text: '星愿池',
-        iconPath: '../public/award-icon.png',
-        selectedIconPath: '../public/award-icon.png',
+        iconPath: '/public/award-icon.png',
+        selectedIconPath: '/public/award-icon.png',
       }
     ]
   }
