@@ -85,8 +85,8 @@ declare namespace API_SCORE {
   };
 
   export type GetExchangeMemoryListParams = {
-    content?: string 
-    checked?: boolean 
+    content?: string;
+    checked?: boolean;
     check_start_date?: string;
     check_end_date?: string;
     start_date?: string;
@@ -102,8 +102,8 @@ declare namespace API_SCORE {
     award_exchange_score: string;
     award_image_list: string[];
     check_date: string;
-    check_state: string 
-    reason: string 
+    check_state: string;
+    reason: string;
     exchange_target: string;
     exchange_target_name: string;
     exchange_user: string;
@@ -154,8 +154,8 @@ declare namespace API_SCORE {
 
   export type CheckScoreExchangeMemoryParams = {
     _id: string;
-    check_state: string 
-    reason?: string 
+    check_state: string;
+    reason?: string;
   };
 
   export type GetScoreClassifyListParams = {
@@ -164,6 +164,46 @@ declare namespace API_SCORE {
     end_date?: string;
     currPage?: number;
     pageSize?: number;
+  };
+
+  export type GetScoreClassifyDesignListParams = {
+    content?: string;
+    classify?: string;
+    holiday?: boolean;
+    repeat_type?: string;
+    target_user: string;
+    currPage?: number;
+    pageSize?: number;
+  };
+
+  export type GetScoreClassifyDesignListData = {
+    _id: string;
+    holiday: boolean;
+    repeat_type: string;
+    repeat: number[];
+    max_age: number;
+    min_age: number;
+    create_user: string;
+    create_user_name: string;
+    classify_id: string;
+    classify_content: string;
+    createdAt: string;
+    updatedAt: string;
+    image: string;
+  };
+
+  export type DeleteScoreClassifyDesignParams = {
+    _id: string 
+  };
+
+  export type PostScoreClassifyDesignParams = {
+    holiday: boolean;
+    repeat_type: string;
+    classify: string;
+    target_user: string;
+    repeat: number[];
+    max_age: number;
+    min_age: number;
   };
 
   export type GetScoreClassifyListData = {
@@ -203,6 +243,7 @@ declare namespace API_SCORE {
     end_date?: string;
     currPage?: number;
     pageSize?: number;
+    enable?: string;
   };
 
   export type GetScoreAwardData = {

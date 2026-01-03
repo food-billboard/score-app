@@ -30,7 +30,7 @@ const Page = (props: { children?: any, onBack: () => void }) => {
             style={{ width: '33%' }}
             className={'score-app-main-header-username'}
           >
-            {['/pages/AwardList', '/pages/Task'].some((item) => {
+            {['/pages/AwardList', '/pages/Task', '/pages/Design'].some((item) => {
               return path.startsWith(item);
             }) && (
               <View

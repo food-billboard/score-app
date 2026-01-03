@@ -1,0 +1,36 @@
+.edit {
+  width: 375px;
+  height: 100vh;
+  overflow-y: auto;
+  box-sizing: border-box;
+  padding: 0.5rem;
+
+  --nutui-checkbox-button-padding: 0.1rem;
+
+  &-footer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    :global {
+      .nut-button {
+        flex: 1;
+        margin-right: 1rem;
+      }
+      .nut-button:nth-last-of-type(1) {
+        margin-right: 0;
+      }
+    }
+  }
+}
+
+.custom-nut-checkbox {
+  margin-right: 10px !important;
+  :global {
+    .nut-checkbox-button {
+      width: 2rem;
+      justify-content: center;
+      margin-bottom: 10px;
+    }
+  }
+}

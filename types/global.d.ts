@@ -11,6 +11,7 @@ declare module '*.scss';
 declare module '*.sass';
 declare module '*.styl';
 declare module '*.mp3';
+declare module '*.ttf';
 
 // src/typings/style.d.ts
 declare module '*.module.scss' {

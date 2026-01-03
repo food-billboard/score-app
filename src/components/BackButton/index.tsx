@@ -5,8 +5,8 @@ import Taro from '@tarojs/taro';
 
 const BackButton = (props: Partial<ButtonProps>) => {
   const handleBack = useCallback(() => {
-    Taro.redirectTo({
-      url: '/'
+    Taro.navigateBack({
+      delta: -1
     })
   }, []);
 

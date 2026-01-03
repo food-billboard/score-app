@@ -38,6 +38,7 @@ const AwardList = () => {
       currPage: currentPage.current,
       pageSize: 10,
       content: getContent(),
+      enable: 'ENABLE'
     }).then((data) => {
       const result =
         currentPage.current === 0

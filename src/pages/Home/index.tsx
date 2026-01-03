@@ -24,7 +24,7 @@ const PageHome = () => {
       .then(() => {
         Toast.hide('page-home');
         Taro.switchTab({
-          url: '/pages/Task/index',
+          url: '/pages/Target/index',
           // routeOptions: {
           //   user: role 
           // }

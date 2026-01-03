@@ -1,13 +1,13 @@
-import axios from 'axios';
-import type { AxiosRequestConfig } from 'axios'
+import qs from 'qs';
 import { debounce, get } from 'lodash'
 import Taro from '@tarojs/taro';
 import { formatQuery } from './tool'
 import { getToken } from './mockLogin';
 
-interface RequestOptions extends AxiosRequestConfig{
+interface RequestOptions extends Partial<Taro.request.Option<any, any>>{
   mis?: boolean
   origin?: boolean 
+  params?: object
 }
 
 // 未登录的多次触发处理
@@ -51,21 +51,40 @@ export const misManage = (error: any) => {
   }
 }
 
+function joinUrl(path: string, host: string, query: object) {
+  let queryString;
+  let ret;
+  if (query) {
+    queryString = qs.stringify(query);
+  }
+  if (/^https?:\/\//.test(path)) {
+    ret = path;
+  } else {
+    ret = host + path;
+  }
+  if (queryString) {
+    ret += '?' + queryString;
+  }
+  return ret;
+}
+
 const request = async <ResBody>(url: string, setting: RequestOptions = {} as RequestOptions)=>{
 
   // 过滤URL参数
-  const { params, mis=true, origin, headers, ...options } = setting
+  const { params, mis=true, origin, header={}, ...options } = setting
 
   let body: any
   let error: any
 
   try{
-    body = await axios.request({
-      baseURL: process.env.TARO_APP_REQUEST_API,
-      url,
-      headers: getToken(true) || {},
+    body = await Taro.request({
+      header: {
+        ...header,
+        ...getToken(true) || {},
+      },
       ...options,
-      ...(params ? { params: formatQuery(params) } : {}),
+      ...(params ? { data: formatQuery(params) } : {}),
+      url: joinUrl(url, process.env.TARO_APP_REQUEST_API as string, params || {}),
     });
   } catch(err) {
     console.log(err, url)

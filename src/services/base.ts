@@ -58,6 +58,30 @@ export const getScoreClassifyList = (params: API_SCORE.GetScoreClassifyListParam
   });
 };
 
+// 分类定制获取
+export const getScoreClassifyDesignList = (params: API_SCORE.GetScoreClassifyDesignListParams) => {
+  return request<API_SCORE.GetListResponse<API_SCORE.GetScoreClassifyDesignListData>>('/api/manage/score/classify', {
+    method: 'GET',
+    params
+  });
+};
+
+// 分类定制删除
+export const deleteScoreClassifyDesign = (params: API_SCORE.DeleteScoreClassifyDesignParams) => {
+  return request('/api/manage/score/classify', {
+    method: 'DELETE',
+    params
+  });
+};
+
+// 分类定制修改
+export const postScoreClassifyDesign = (data: API_SCORE.PostScoreClassifyDesignParams) => {
+  return request('/api/manage/score/classify', {
+    method: 'POST',
+    data
+  });
+};
+
 // 一级分类列表
 export const getScorePrimaryClassifyList = (params: API_SCORE.GetScorePrimaryClassifyListParams) => {
   return request<API_SCORE.GetListResponse<API_SCORE.GetScorePrimaryClassifyListData>>('/api/manage/score/classify/primary', {

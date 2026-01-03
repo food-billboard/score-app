@@ -1,22 +1,10 @@
-// @font-face {
-//   font-family: font_one;
-//   src: url('../public/font-1.ttf');
-// }
-// @font-face {
-//   font-family: font_two;
-//   src: url('../public/font-2.ttf');
-// }
-// @font-face {
-//   font-family: font_three;
-//   src: url('../public/font-3.ttf');
-// }
-// @font-face {
-//   font-family: font_four;
-//   src: url('../public/font-4.ttf');
-// }
+@font-face {
+  font-family: font_one;
+  src: url('../public/font-1.ttf');
+}
 
 .score-app-main {
-  height: 100vh;
+  height: ~'calc( 100vh - var(--taro-tabbar-height) )';
   overflow: hidden;
   position: relative;
   display: flex;
@@ -61,26 +49,27 @@
 }
 
 .taro_page {
+  background-color: #a8ff78 !important;
   position: relative;
   max-height: unset !important;
 }
 
 :root,
 page {
-  font-family: font_one;
+  // font-family: font_one;
   margin: 0;
   font-size: var(--adm-font-size-9, 17px);
-  background: #a8ff78; /* fallback for old browsers */
-  background: -webkit-linear-gradient(
-    to right,
-    rgba(120, 255, 214, 0.5),
-    rgba(168, 255, 120, 0.5)
-  ); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(
-    to right,
-    rgba(120, 255, 214, 0.5),
-    rgba(168, 255, 120, 0.5)
-  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  // background: #a8ff78; /* fallback for old browsers */
+  // background: -webkit-linear-gradient(
+  //   to right,
+  //   rgba(120, 255, 214, 0.5),
+  //   rgba(168, 255, 120, 0.5)
+  // ); /* Chrome 10-25, Safari 5.1-6 */
+  // background: linear-gradient(
+  //   to right,
+  //   rgba(120, 255, 214, 0.5),
+  //   rgba(168, 255, 120, 0.5)
+  // ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   --opacityp5-primary: rgba(0,216,106, 0.5);
   --opacityp2-primary: rgba(0,216,106, 0.2);
   --opacityp1-primary: rgba(0,216,106, 0.1);
