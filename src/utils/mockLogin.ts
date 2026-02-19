@@ -45,6 +45,11 @@ const TARO_APP_MOCK_LOGON_MAP: any = {
     password: process.env.TARO_APP_MOCK_GRANDMA_PASSWORD,
     email: process.env.TARO_APP_MOCK_GRANDMA_EMAIL
   },
+  "process.env.TARO_APP_DEFAULT_CHILD_ID": {
+    mobile: process.env.TARO_APP_MOCK_CHILD_MOBILE,
+    password: process.env.TARO_APP_MOCK_CHILD_PASSWORD,
+    email: process.env.TARO_APP_MOCK_CHILD_EMAIL
+  },
 }
 
 export default async function(user: string) {

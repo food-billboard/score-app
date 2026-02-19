@@ -10,8 +10,9 @@ import DialogDom, { Dialog } from '../Dialog';
 import Star from '@/components/Star';
 import { useEffect, useRef } from 'react';
 import { useUpdate } from 'ahooks';
+import { isUserSide } from '@/utils/tool';
 
-const Page = (props: { children?: any; onBack: () => void }) => {
+const Page = (props: { children?: any; onBack: false | (() => void) }) => {
   const { username, score, avatar } = getUserInfoData();
 
   const countUpInstance = useRef<CountUp>();
@@ -63,7 +64,7 @@ const Page = (props: { children?: any; onBack: () => void }) => {
             style={{ width: '33%' }}
             className={'score-app-main-header-username'}
           >
-            {['/pages/AwardList', '/pages/Task', '/pages/Design'].some(
+            {onBack && !isUserSide() && ['/pages/AwardList', '/pages/Task', '/pages/Design'].some(
               (item) => {
                 return path.startsWith(item);
               },

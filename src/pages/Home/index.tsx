@@ -1,37 +1,54 @@
-import { Button, Grid, Toast } from '@nutui/nutui-react-taro';
-import { useCallback } from 'react';
-import { View } from '@tarojs/components'
+import { Input, Button, Grid, Toast, Dialog } from '@nutui/nutui-react-taro';
+import { useCallback, useRef, useState } from 'react';
+import { View } from '@tarojs/components';
 import Taro from '@tarojs/taro';
 import Page from '@/components/Page';
 import mockLogin from '@/utils/mockLogin';
 import { setUserInfo } from '@/utils/constants';
 import { getUserInfo as fetchUserInfo } from '@/services/base';
-import { action } from '@/components/MusicButton'
+import { action } from '@/components/MusicButton';
 import styles from './index.module.less';
 
 const PageHome = () => {
-  const routeChange = useCallback((role: any) => {
-    action()
+  const [visible, setVisible] = useState(false);
+  const [password, setPassword] = useState('');
+
+  const currentRole = useRef('');
+
+  const routeChange = useCallback(() => {
+    if (password !== '8021') {
+      return Toast.show('page-home', {
+        content: '密码错误',
+        closeOnOverlayClick: false,
+      });
+    }
     Toast.show('page-home', {
       content: '数据加载中',
       closeOnOverlayClick: false,
       duration: 0,
     });
-    
-    mockLogin(role)
+
+    mockLogin(currentRole.current)
       .then(fetchUserInfo)
       .then((value) => {
         setUserInfo(value);
       })
       .then(() => {
+        setVisible(false);
         Toast.hide('page-home');
         Taro.switchTab({
           url: '/pages/Task/index',
           // routeOptions: {
-          //   user: role 
+          //   user: role
           // }
-        })
+        });
       });
+  }, [password]);
+
+  const handleClick = useCallback((role: any) => {
+    action();
+    currentRole.current = role;
+    setVisible(true);
   }, []);
 
   return (
@@ -63,7 +80,12 @@ const PageHome = () => {
             return (
               <Grid.Item key={value?.toString()}>
                 <View className="t-c">
-                  <Button block size='large' type='primary' onClick={() => routeChange(value as string)}>
+                  <Button
+                    block
+                    size="large"
+                    type="primary"
+                    onClick={() => handleClick(value as string)}
+                  >
                     {label}
                   </Button>
                 </View>
@@ -72,6 +94,15 @@ const PageHome = () => {
           })}
         </Grid>
       </View>
+      <Dialog
+        title="验证"
+        visible={visible}
+        footerDirection="vertical"
+        onConfirm={routeChange}
+        onCancel={() => setVisible(false)}
+      >
+        <Input placeholder='请输入密码' type="password" value={password} onChange={setPassword} />
+      </Dialog>
     </Page>
   );
 };

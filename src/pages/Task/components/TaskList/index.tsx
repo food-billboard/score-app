@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Fabulous } from '@nutui/icons-react-taro';
 import { Popup } from '@nutui/nutui-react-taro';
-import { View, Image, Text } from '@tarojs/components';
+import { View, Image, Text, Button } from '@tarojs/components';
 import dayjs from 'dayjs';
 import classnames from 'classnames';
 import {
@@ -10,6 +10,7 @@ import {
 } from '@/services/base';
 import ScoreAction from './components/Action';
 import styles from './index.module.less';
+import { isUserSide } from '@/utils/tool';
 
 type CurrentData = API_SCORE.GetScoreMemoryListData & {
   defaultScoreType: string;
@@ -49,6 +50,17 @@ const TaskList = (props: { currentDate: string }) => {
   const renderActionResult = useCallback(
     (data: API_SCORE.GetScoreMemoryListData) => {
       const { score_type, target_score } = data;
+      // 用户端
+      if(isUserSide()) {
+        // if(score_type === 'TODO') {
+        //   return (
+        //     <Button type="primary" onClick={() => {
+
+        //     }}>完成</Button>
+        //   )
+        // }
+        return null 
+      }
       if (score_type === 'TODO') {
         return (
           <>

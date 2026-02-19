@@ -20,3 +20,8 @@ export function getQuery() {
 export function jump(path: string, method: 'push' | 'replace') {
 
 }
+
+// 判断是用户端还是家长端
+export function isUserSide() {
+  return location.href.includes('user_side=1')
+}

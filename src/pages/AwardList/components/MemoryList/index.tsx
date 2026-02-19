@@ -14,9 +14,13 @@ import Taro from '@tarojs/taro';
 import dayjs from 'dayjs';
 import { useControllableValue } from 'ahooks';
 import { getUserInfo as getUserInfoData } from '@/utils/constants';
-import { getExchangeMemoryList, checkScoreExchangeMemory } from '@/services/base';
+import {
+  getExchangeMemoryList,
+  checkScoreExchangeMemory,
+} from '@/services/base';
 import styles from './index.module.less';
 import { useGetState } from 'ahooks';
+import { isUserSide } from '@/utils/tool';
 
 type Ref = {
   open: (value: API_SCORE.GetExchangeMemoryListData) => void;
@@ -31,7 +35,7 @@ const Action = forwardRef<
   const [visible, setVisible] = useState(false);
   const [value, setValue] = useState<API_SCORE.GetExchangeMemoryListData>();
 
-  const { check_date, _id='' } = value || {};
+  const { check_date, _id = '' } = value || {};
 
   // 核销
   const handleCheck = useCallback(() => {
@@ -42,45 +46,39 @@ const Action = forwardRef<
         checkScoreExchangeMemory({
           _id,
           check_state: 'AGREE',
-        })
-        .then(() => {
-          setVisible(false)
-          onChange?.()
-        })
-      }
-    })
-  }, [_id, onChange])
+        }).then(() => {
+          setVisible(false);
+          onChange?.();
+        });
+      },
+    });
+  }, [_id, onChange]);
 
   // 撤销兑换
   const handleCancel = useCallback(() => {
-     Taro.showModal({
+    Taro.showModal({
       title: '提示',
       content: '是否确认取消核销？',
       success: () => {
         checkScoreExchangeMemory({
           _id,
           check_state: 'DISAGREE',
-        })
-        .then(() => {
-          setVisible(false)
-          onChange?.()
-        })
-      }
-    })
-  }, [onChange, _id])
+        }).then(() => {
+          setVisible(false);
+          onChange?.();
+        });
+      },
+    });
+  }, [onChange, _id]);
 
-  useImperativeHandle(
-    ref,
-    () => {
-      return {
-        open: (value) => {
-          setValue(value);
-          setVisible(true);
-        },
-      };
-    },
-    [],
-  );
+  useImperativeHandle(ref, () => {
+    return {
+      open: (value) => {
+        setValue(value);
+        setVisible(true);
+      },
+    };
+  }, []);
 
   return (
     <Popup
@@ -98,10 +96,24 @@ const Action = forwardRef<
         </View>
         {type == 0 && (
           <View className={styles['action-footer']}>
-            <Button style={{marginBottom: '0.5rem'}} shape="round" block onClick={handleCheck} type="primary">
-              立即核销
-            </Button>
-            <Button fill="none" shape="round" block onClick={handleCancel} type="warning">
+            {!isUserSide() && (
+              <Button
+                style={{ marginBottom: '0.5rem' }}
+                shape="round"
+                block
+                onClick={handleCheck}
+                type="primary"
+              >
+                立即核销
+              </Button>
+            )}
+            <Button
+              fill="none"
+              shape="round"
+              block
+              onClick={handleCancel}
+              type="warning"
+            >
               撤销兑换
             </Button>
           </View>
@@ -109,9 +121,12 @@ const Action = forwardRef<
         {type == 1 && (
           <View className={styles['action-footer']}>
             <View className={styles['action-footer-tip']}>
-              <Check className={styles['action-footer-tip-icon']} /> 恭喜你，心愿已达成~~
+              <Check className={styles['action-footer-tip-icon']} />{' '}
+              恭喜你，心愿已达成~~
             </View>
-            <View className={styles['action-footer-date']}>心愿达成时间：{dayjs(check_date).format('MM-DD HH:mm')}</View>
+            <View className={styles['action-footer-date']}>
+              心愿达成时间：{dayjs(check_date).format('MM-DD HH:mm')}
+            </View>
           </View>
         )}
       </View>
@@ -216,7 +231,14 @@ const MemoryList = (props: {
     return (
       <View className={styles['memory-list']}>
         {dataSource.map((item) => {
-          return <Item value={item} key={item._id} type={tabIndex} onClick={() => actionRef.current?.open(item)}/>;
+          return (
+            <Item
+              value={item}
+              key={item._id}
+              type={tabIndex}
+              onClick={() => actionRef.current?.open(item)}
+            />
+          );
         })}
         <InfiniteLoading
           onLoadMore={async () => {

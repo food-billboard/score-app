@@ -2,48 +2,37 @@ import Taro from '@tarojs/taro';
 import Page from '@/components/Page';
 import { Row, Col } from '@nutui/nutui-react-taro';
 import { View, Image } from '@tarojs/components';
-import { getScoreClassifyList } from '@/services/base'
+import { getScoreClassifyList } from '@/services/base';
 import styles from './index.module.less';
 import { useCallback, useEffect, useState } from 'react';
+import { isUserSide } from '@/utils/tool';
 
 const Design = () => {
   const [taskList, setTaskList] = useState<
     API_SCORE.GetScoreClassifyListData[]
-  >([
-    {
-      _id: 'string',
-      create_user: 'string',
-      create_user_name: 'string',
-      primary_id: 'string',
-      primary_name: 'string',
-      content: 'string',
-      description: 'string',
-      createdAt: 'string',
-      updatedAt: 'string',
-      image: 'http://kc.gengfa.top/imgs/ktfw/banner.png',
-    },
-    {
-      _id: 'string2',
-      create_user: 'string',
-      create_user_name: 'string',
-      primary_id: 'string',
-      primary_name: 'string',
-      content: 'string',
-      description: 'string',
-      createdAt: 'string',
-      updatedAt: 'string',
-      image: 'http://kc.gengfa.top/imgs/ktfw/banner.png',
-    }
-  ]);
+  >([]);
 
-  const handleDetail = useCallback((value: API_SCORE.GetScoreClassifyListData) => {
-    Taro.navigateTo({
-      url: `/pages/DesignEdit/index?classify=${value._id}`
-    })
-  }, [])
+  const handleDetail = useCallback(
+    (value: API_SCORE.GetScoreClassifyListData) => {
+      Taro.navigateTo({
+        url: `/pages/DesignEdit/index?classify=${value._id}`,
+      });
+    },
+    [],
+  );
 
   useEffect(() => {
-    return 
+    if(isUserSide()) {
+      Taro.showToast({
+        title: '你无权限查看',
+        complete: () => {
+          Taro.switchTab({
+            url: '/pages/Task/index'
+          })
+        }
+      })
+      return 
+    }
     function fetchData() {
       getScoreClassifyList({
         currPage: 0,
@@ -52,14 +41,20 @@ const Design = () => {
         setTaskList(data || []);
       });
     }
-    fetchData()
+    fetchData();
   }, []);
+
+  if(isUserSide()) {
+    return null 
+  }
 
   return (
     <Page
-      onBack={() =>
-        Taro.redirectTo({
-          url: '/pages/Home/index',
+      onBack={
+        (() => {
+          Taro.redirectTo({
+            url: '/pages/Home/index',
+          });
         })
       }
     >
@@ -70,8 +65,14 @@ const Design = () => {
             return (
               <Col span={8} key={_id} onClick={handleDetail.bind(null, item)}>
                 <View className={styles['design-list-item']}>
-                  <Image className={styles['design-list-item-image']} src={image} mode="aspectFit" />
-                  <View className={styles['design-list-item-content']}>{content}</View>
+                  <Image
+                    className={styles['design-list-item-image']}
+                    src={image}
+                    mode="aspectFit"
+                  />
+                  <View className={styles['design-list-item-content']}>
+                    {content}
+                  </View>
                 </View>
               </Col>
             );
