@@ -6,10 +6,12 @@ import Page from '@/components/Page';
 import mockLogin from '@/utils/mockLogin';
 import { setUserInfo } from '@/utils/constants';
 import { getUserInfo as fetchUserInfo } from '@/services/base';
+import { action } from '@/components/MusicButton'
 import styles from './index.module.less';
 
 const PageHome = () => {
   const routeChange = useCallback((role: any) => {
+    action()
     Toast.show('page-home', {
       content: '数据加载中',
       closeOnOverlayClick: false,
@@ -24,7 +26,7 @@ const PageHome = () => {
       .then(() => {
         Toast.hide('page-home');
         Taro.switchTab({
-          url: '/pages/Target/index',
+          url: '/pages/Task/index',
           // routeOptions: {
           //   user: role 
           // }
@@ -61,7 +63,7 @@ const PageHome = () => {
             return (
               <Grid.Item key={value?.toString()}>
                 <View className="t-c">
-                  <Button type='primary' onClick={() => routeChange(value as string)}>
+                  <Button block size='large' type='primary' onClick={() => routeChange(value as string)}>
                     {label}
                   </Button>
                 </View>

@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useUpdate } from 'ahooks';
 import Taro from '@tarojs/taro';
+import 'animate.css';
 import { fetchUserInfo, Event } from './utils/constants';
 import '../public/iconfont/iconfont.css';
 // 全局样式

@@ -83,7 +83,7 @@ const request = async <ResBody>(url: string, setting: RequestOptions = {} as Req
         ...getToken(true) || {},
       },
       ...options,
-      ...(params ? { data: formatQuery(params) } : {}),
+      // ...(params ? { data: formatQuery(params) } : {}),
       url: joinUrl(url, process.env.TARO_APP_REQUEST_API as string, params || {}),
     });
   } catch(err) {

@@ -19,17 +19,17 @@
     position: sticky;
     top: 0;
     z-index: 1;
-    background: #a8ff78; /* fallback for old browsers */
-    background: -webkit-linear-gradient(
-      to right,
-      rgba(120, 255, 214),
-      rgba(168, 255, 120)
-    ); /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(
-      to right,
-      rgba(120, 255, 214),
-      rgba(168, 255, 120)
-    ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    // background: #a8ff78; /* fallback for old browsers */
+    // background: -webkit-linear-gradient(
+    //   to right,
+    //   rgba(120, 255, 214),
+    //   rgba(168, 255, 120)
+    // ); /* Chrome 10-25, Safari 5.1-6 */
+    // background: linear-gradient(
+    //   to right,
+    //   rgba(120, 255, 214),
+    //   rgba(168, 255, 120)
+    // ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     &-username {
       font-size: .8rem;
       display: flex;
@@ -49,7 +49,7 @@
 }
 
 .taro_page {
-  background-color: #a8ff78 !important;
+  background-color:  rgba(168, 255, 120, 0.1) !important;
   position: relative;
   max-height: unset !important;
 }
@@ -85,6 +85,7 @@ page {
   --nutui-hoverbutton-item-border-color: transparent;
   --nutui-hoverbutton-position-bottom: 20vh;
   --nutui-hoverbutton-position-right: 1rem;
+  --adm-button-border-radius: 16px;
   .nut-inputnumber-minus .nut-icon, .nut-inputnumber-add .nut-icon {
     width: 14px !important;
     height: 14px !important;
