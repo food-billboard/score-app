@@ -7,16 +7,16 @@ require('dotenv').config();
 const client = new Client();
 
 const baseServiceConfig = {
-  host: process.env.RASPBERRY_IP,
-  username: process.env.RASPBERRY_NAME,
-  password: process.env.RASPBERRY_PASSWORD,
+  host: process.env.TARO_APP_TARO_APP_RASPBERRY_IP,
+  username: process.env.TARO_APP_TARO_APP_RASPBERRY_NAME,
+  password: process.env.TARO_APP_RASPBERRY_PASSWORD,
 };
 
 // 把prev文件夹删除
 async function deleteThePreviousServiceDir() {
-  return client.exists(process.env.RASPBERRY_PREVIOUS_PROJECT_PATH).then((result) => {
+  return client.exists(process.env.TARO_APP_RASPBERRY_PROJECT_PATH).then((result) => {
     if (result) {
-      return client.rmdir(process.env.RASPBERRY_PREVIOUS_PROJECT_PATH, true);
+      return client.rmdir(process.env.TARO_APP_RASPBERRY_PREVIOUS_PROJECT_PATH, true);
     }
   });
 }
@@ -32,8 +32,8 @@ async function renameServiceDir(oldDirName, newDirName) {
 // 把本地文件夹上传到服务器
 async function deployLocalDir() {
   return client.uploadDir(
-    path.join(process.cwd(), process.env.LOCAL_DIST_NAME),
-    process.env.RASPBERRY_DIST_PROJECT_PATH,
+    path.join(process.cwd(), process.env.TARO_APP_LOCAL_DIST_NAME),
+    process.env.TARO_APP_RASPBERRY_DIST_PROJECT_PATH,
   );
 }
 
@@ -43,8 +43,8 @@ client
   .then(() => {
     // 把当前文件夹重命名为prev
     return renameServiceDir(
-      process.env.RASPBERRY_PROJECT_PATH,
-      process.env.RASPBERRY_PREVIOUS_PROJECT_PATH,
+      process.env.TARO_APP_RASPBERRY_PROJECT_PATH,
+      process.env.TARO_APP_RASPBERRY_PREVIOUS_PROJECT_PATH,
     );
   })
   .then(() => {
@@ -53,8 +53,8 @@ client
   .then(() => {
     // 把上传的文件夹重命名为正式文件夹
     return renameServiceDir(
-      process.env.RASPBERRY_DIST_PROJECT_PATH,
-      process.env.RASPBERRY_PROJECT_PATH,
+      process.env.TARO_APP_RASPBERRY_DIST_PROJECT_PATH,
+      process.env.TARO_APP_RASPBERRY_PROJECT_PATH,
     );
   })
   .then(() => {
