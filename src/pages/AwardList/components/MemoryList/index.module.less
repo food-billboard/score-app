@@ -32,8 +32,13 @@
 }
 .memory-list {
   overflow-y: auto;
-  height: 100%;
+  height: ~'calc( 80vh - var(--nutui-tabs-titles-height, 44px) )';
   padding: 0 1rem;
+  :global {
+    .nut-infiniteloading {
+      height: 3rem !important;
+    }
+  }
   &-item-deal {
     opacity: 0.5;
   }
@@ -97,10 +102,12 @@
     /* 黄色背景 */
     background-color: #ffe566;
     /* 关键：用径向渐变绘制上下边缘的半圆孔洞 */
-    background-image: radial-gradient(circle, transparent 50%, #ffe566 50%),
+    background-image:
+      radial-gradient(circle, transparent 50%, #ffe566 50%),
       /* 上边缘孔洞 */ radial-gradient(circle, transparent 50%, #ffe566 50%); /* 下边缘孔洞 */
     background-size: 1.2rem 0.4rem; /* 单个孔洞大小（宽=直径，高=半径） */
-    background-position: 0 -6px,
+    background-position:
+      0 -6px,
       /* 上边缘：向上偏移半个半径（隐藏下半圆） */ 0 calc(100% + 6px); /* 下边缘：向下偏移半个半径 */
     background-repeat: repeat-x; /* 水平重复排列 */
 
@@ -179,24 +186,24 @@
     padding: 0 3rem;
     &-tip {
       border: 2px solid var(--opacityp5-primary);
-      border-radius: .5rem;
-      padding: .8rem .3rem;
+      border-radius: 0.5rem;
+      padding: 0.8rem 0.3rem;
       box-sizing: border-box;
       color: var(--nutui-color-primary);
       display: flex;
       justify-content: center;
       align-items: center;
-      margin-bottom: .5rem;
+      margin-bottom: 0.5rem;
       &-icon {
         font-size: 1rem;
         --nut-icon-width: 1rem;
         --nut-icon-height: 1rem;
-        margin-right: .2rem;
+        margin-right: 0.2rem;
       }
     }
     &-date {
       color: #999;
-      font-size: .5rem;
+      font-size: 0.5rem;
       text-align: center;
     }
   }

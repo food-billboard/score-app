@@ -16,7 +16,7 @@ const baseServiceConfig = {
 async function deleteThePreviousServiceDir() {
   return client.exists(process.env.TARO_APP_RASPBERRY_PROJECT_PATH).then((result) => {
     if (result) {
-      return client.rmdir(process.env.TARO_APP_RASPBERRY_PREVIOUS_PROJECT_PATH, true);
+      return client.rmdir(process.env.TARO_APP_RASPBERRY_PREVIOUS_PROJECT_PATH, true).catch(()=>{});
     }
   });
 }

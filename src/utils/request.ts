@@ -68,6 +68,15 @@ function joinUrl(path: string, host: string, query: object) {
   return ret;
 }
 
+
+export const getPrefix = () => {
+  if(process.env.NODE_ENV === 'development') {
+    // return process.env.TARO_APP_REQUEST_API as string
+    return process.env.TARO_APP_REQUEST_API_PEANUT as string
+  }
+  return new URL(location.href).origin
+}
+
 const request = async <ResBody>(url: string, setting: RequestOptions = {} as RequestOptions)=>{
 
   // 过滤URL参数
@@ -75,6 +84,8 @@ const request = async <ResBody>(url: string, setting: RequestOptions = {} as Req
 
   let body: any
   let error: any
+
+  const prefix = getPrefix()
 
   try{
     body = await Taro.request({
@@ -84,7 +95,7 @@ const request = async <ResBody>(url: string, setting: RequestOptions = {} as Req
       },
       ...options,
       // ...(params ? { data: formatQuery(params) } : {}),
-      url: joinUrl(url, process.env.TARO_APP_REQUEST_API as string, params || {}),
+      url: joinUrl(url, prefix, params || {}),
     });
   } catch(err) {
     console.log(err, url)

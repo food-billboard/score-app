@@ -7,12 +7,13 @@ import {
   useCallback,
 } from 'react';
 import { InfiniteLoading, Popup, Tabs, Button } from '@nutui/nutui-react-taro';
-import { View, Image } from '@tarojs/components';
+import { View } from '@tarojs/components';
 import { Check } from '@nutui/icons-react-taro';
 import classnames from 'classnames';
 import Taro from '@tarojs/taro';
 import dayjs from 'dayjs';
 import { useControllableValue } from 'ahooks';
+import Image from '@/components/Image'
 import { getUserInfo as getUserInfoData } from '@/utils/constants';
 import {
   getExchangeMemoryList,
@@ -89,6 +90,7 @@ const Action = forwardRef<
       round
       position="bottom"
       closeable
+      portal={() => document.body}
     >
       <View className={styles['action']}>
         <View className={styles['action-content']}>
@@ -212,6 +214,7 @@ const MemoryList = (props: {
     return getExchangeMemoryList({
       currPage: currentPage.current,
       pageSize: 10,
+      checked: tabIndex === 1
     }).then((data) => {
       const result =
         currentPage.current === 0
@@ -269,6 +272,7 @@ const MemoryList = (props: {
         position="bottom"
         title={'我的兑换'}
         closeable
+        portal={() => document.body}
       >
         <View className={styles['award-memory-container']}>
           <Tabs

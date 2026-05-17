@@ -1,6 +1,7 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useMemo } from 'react';
 import { Swiper, ImagePreview } from '@nutui/nutui-react-taro';
-import { View, Image } from '@tarojs/components';
+import { View } from '@tarojs/components';
+import Image, { srcParse } from '@/components/Image';
 import styles from './index.module.less';
 
 const Carousel = (props: { imageList: string[] }) => {
@@ -14,10 +15,16 @@ const Carousel = (props: { imageList: string[] }) => {
     setIndex(index);
   }, []);
 
+  const parseImageList = useMemo(() => {
+    return imageList.map((item) => {
+      return srcParse(item);
+    });
+  }, [imageList]);
+
   return (
     <View className={styles['carousel']}>
       <Swiper>
-        {imageList.map((image, index) => (
+        {parseImageList.map((image, index) => (
           <Swiper.Item key={index}>
             <Image
               className={styles['carousel-item']}
@@ -30,7 +37,7 @@ const Carousel = (props: { imageList: string[] }) => {
       </Swiper>
       <ImagePreview
         autoPlay
-        images={imageList.map((item) => ({ src: item }))}
+        images={parseImageList.map((item) => ({ src: item }))}
         visible={visible}
         value={index}
         defaultValue={0}

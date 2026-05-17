@@ -31,7 +31,7 @@ const DateList = (props: {
   const dateList = useMemo(() => {
     const currentDate = dayjs();
     const prevDateList = new Array(7).fill('').map((_, index) => {
-      return dayjs(currentDate).subtract(7 - index + 1, 'day');
+      return dayjs(currentDate).subtract(7 - index, 'day');
     });
     const nextDateList = new Array(7).fill('').map((_, index) => {
       return dayjs(currentDate).add(index + 1, 'day');
@@ -176,15 +176,18 @@ const DateList = (props: {
           visible={visible}
           type="single"
           defaultValue={date}
-          onConfirm={(value) => {
-            onChange(dayjs(typeof value === 'string' ? value : value[3]).format('YYYY-MM-DD'));
-          }}
+          // onConfirm={(value) => {
+          //   onChange(dayjs(typeof value === 'string' ? value : value[3]).format('YYYY-MM-DD'));
+          // }}
           onDayClick={(value: any) => {
-            setStateValue(dayjs(value).format('YYYY-MM-DD'));
+            // setStateValue(dayjs(value).format('YYYY-MM-DD'));
+            onChange(dayjs(typeof value === 'string' ? value : value[3]).format('YYYY-MM-DD'));
+            setVisible(false)
           }}
           onClose={() => setVisible(false)}
           startDate={dateList[0].format('YYYY-MM-DD')}
           endDate={dateList[dateList.length - 1].format('YYYY-MM-DD')}
+          
         />
       )}
     </View>

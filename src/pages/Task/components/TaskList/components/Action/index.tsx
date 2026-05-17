@@ -1,19 +1,20 @@
 import { useCallback, useMemo, useState, useRef, useEffect } from 'react';
-import { TextArea, Button, Tabs, InputNumber, Dialog } from '@nutui/nutui-react-taro';
+import {
+  TextArea,
+  Button,
+  Tabs,
+  InputNumber,
+  Dialog,
+} from '@nutui/nutui-react-taro';
 import { Ask } from '@nutui/icons-react-taro';
 import { useDebounceFn } from 'ahooks';
-import { View, Text, Image } from '@tarojs/components';
+import { View, Text } from '@tarojs/components';
+import Image from '@/components/Image';
 import { putScoreMemory } from '@/services/base';
-import { fetchUserInfo } from '@/utils/constants'
-import Reaction, { ReactionRef } from '@/components/Reaction'
+import { fetchUserInfo } from '@/utils/constants';
 import styles from './index.module.less';
-import successIcon from '../../../../../../../public/success.png'
-import successAudio from '../../../../../../../public/success.mp3'
-import failIcon from '../../../../../../../public/fail.png'
-import failAudio from '../../../../../../../public/fail.mp3'
 
 const Question = () => {
-
   return (
     <>
       <Ask
@@ -24,10 +25,10 @@ const Question = () => {
             closeOnOverlayClick: true,
             closeIcon: true,
             onClose: () => {
-              Dialog.close('nut-dialog-ask')
+              Dialog.close('nut-dialog-ask');
             },
             onCancel: () => {
-              Dialog.close('nut-dialog-ask')
+              Dialog.close('nut-dialog-ask');
             },
             title: '打分说明',
             content: (
@@ -57,15 +58,16 @@ const Question = () => {
   );
 };
 
-const TABS_LIST = ['DONE', 'TODO', 'DEAL']
+const TABS_LIST = ['DONE', 'TODO', 'DEAL'];
 
 const Action = (props: {
   value: API_SCORE.GetScoreMemoryListData & {
     defaultScoreType: string;
   };
   onClose?: () => void;
+  onAction: (type: string) => void;
 }) => {
-  const { value, onClose } = props;
+  const { value, onClose, onAction } = props;
   const {
     _id,
     target_classify_image,
@@ -77,21 +79,21 @@ const Action = (props: {
   } = value || {};
 
   const [templateScore, setTemplateScore] = useState(target_score);
-  const [templateActiveKey, setTemplateActiveKey] = useState(defaultScoreType || 'DONE');
+  const [templateActiveKey, setTemplateActiveKey] = useState(
+    defaultScoreType || 'DONE',
+  );
   const [templateCreateContent, setTemplateCreateContent] =
     useState(create_content);
 
   const [actionLoading, setActionLoading] = useState(false);
 
-  const reactionRef = useRef<ReactionRef>(null)
-
   const tabIndex = useMemo(() => {
-    return TABS_LIST.indexOf(templateActiveKey)
-  }, [templateActiveKey])
+    return TABS_LIST.indexOf(templateActiveKey);
+  }, [templateActiveKey]);
 
   const onActiveKeyChange = useCallback(
     (index: number) => {
-      const activeKey = TABS_LIST[index]
+      const activeKey = TABS_LIST[index];
       setTemplateActiveKey(activeKey);
 
       if (activeKey === score_type) {
@@ -119,11 +121,7 @@ const Action = (props: {
     async () => {
       setActionLoading(true);
       try {
-        if(templateActiveKey === 'DONE') {
-          reactionRef.current?.open(successIcon, successAudio)
-        }else if(templateActiveKey === 'DEAL'){
-          reactionRef.current?.open(failIcon, failAudio)
-        }
+        onAction(templateActiveKey);
         await putScoreMemory({
           _id,
           create_content: templateCreateContent,
@@ -131,11 +129,10 @@ const Action = (props: {
           score_type: templateActiveKey,
         });
       } catch {
-       
       } finally {
         setActionLoading(false);
-        fetchUserInfo(true)
-        onClose?.()
+        fetchUserInfo(true);
+        onClose?.();
       }
     },
     {
@@ -258,7 +255,6 @@ const Action = (props: {
         </View>
       </View>
       <Dialog id={`nut-dialog-ask`} />
-      <Reaction ref={reactionRef} />
     </View>
   );
 };

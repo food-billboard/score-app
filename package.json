@@ -10,7 +10,7 @@
     "framework": "React"
   },
   "scripts": {
-    "deploy-raspberry:h5": "node ./scripts/raspberryDeploy.js",
+    "build-and-deploy-raspberry:h5": "npm run build:h5 && node ./scripts/raspberryDeploy.js",
     "build:weapp": "taro build --type weapp",
     "build:swan": "taro build --type swan",
     "build:alipay": "taro build --type alipay",

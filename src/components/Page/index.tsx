@@ -2,7 +2,8 @@ import Taro, { useRouter } from '@tarojs/taro';
 import { CountUp } from 'countup.js';
 import { ArrowLeft } from '@nutui/icons-react-taro';
 import { ConfigProvider } from '@nutui/nutui-react-taro';
-import { View, Image } from '@tarojs/components';
+import { View } from '@tarojs/components';
+import Image from '@/components/Image'
 import { action } from '../MusicButton';
 import { getUserInfo as getUserInfoData, Event } from '../../utils/constants';
 import ToastDom from '../Toast';

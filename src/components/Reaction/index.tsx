@@ -1,4 +1,4 @@
-import { Image, View } from '@tarojs/components';
+import { View, Image } from '@tarojs/components';
 import { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
 import Taro from '@tarojs/taro';
 import styles from './index.module.less';

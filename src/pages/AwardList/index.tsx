@@ -6,19 +6,23 @@ import {
   Button,
   Grid,
   Popup,
-  HoverButton
+  HoverButton,
 } from '@nutui/nutui-react-taro';
-import { View, Image, Text } from '@tarojs/components';
+import { View, Text, ScrollView } from '@tarojs/components';
 import Page from '@/components/Page';
+import Image from '@/components/Image'
 import { getScoreAward } from '@/services/base';
 import styles from './index.module.less';
 import { useGetState } from 'ahooks';
 import { AWARD_CYCLE_ENUM } from '@/utils/constants';
 import AwardDetail from './components/AwardDetail';
 import Star from '@/components/Star';
+import Reaction, { ReactionRef } from '@/components/Reaction';
 import { IconFont } from '@nutui/icons-react-taro';
 import { action } from '@/components/MusicButton';
-import MemoryList from './components/MemoryList'
+import MemoryList from './components/MemoryList';
+import successIcon from '../../../public/success.png';
+import successAudio from '../../../public/success.mp3';
 
 const AwardList = () => {
   const [content, setContent, getContent] = useGetState('');
@@ -29,16 +33,17 @@ const AwardList = () => {
   const [currentData, setCurrentData] = useState<
     false | API_SCORE.GetScoreAwardData
   >(false);
-  const [ memoryVisible, setMemoryVisible ] = useState(false)
+  const [memoryVisible, setMemoryVisible] = useState(false);
 
   const currentPage = useRef(0);
+  const reactionRef = useRef<ReactionRef>(null);
 
   async function fetchData() {
     return getScoreAward({
       currPage: currentPage.current,
       pageSize: 10,
       content: getContent(),
-      enable: 'ENABLE'
+      enable: 'ENABLE',
     }).then((data) => {
       const result =
         currentPage.current === 0
@@ -54,18 +59,22 @@ const AwardList = () => {
   }, []);
 
   const handleShowMemory = useCallback(() => {
-    action()
-    setMemoryVisible(true)
-  }, [])
+    action();
+    setMemoryVisible(true);
+  }, []);
 
   useEffect(() => {
     fetchData();
   }, []);
 
   return (
-    <Page onBack={() => Taro.redirectTo({
-      url: '/pages/Home/index'
-    })}>
+    <Page
+      onBack={() =>
+        Taro.redirectTo({
+          url: '/pages/Home/index',
+        })
+      }
+    >
       <View className={styles['award-list-container']}>
         <View className={styles.header}>
           <View className={styles.left}>
@@ -77,7 +86,7 @@ const AwardList = () => {
           </View>
           <View className={styles.right}>
             <Button
-              style={{verticalAlign: 'middle'}}
+              style={{ verticalAlign: 'middle' }}
               size="normal"
               type="primary"
               onClick={() => {
@@ -159,15 +168,32 @@ const AwardList = () => {
           position="bottom"
           title={currentData ? currentData.award_name : ''}
           closeIcon
+          portal={() => document.body}
         >
-          <AwardDetail
-            onClose={() => setCurrentData(false)}
-            value={currentData as API_SCORE.GetScoreAwardData}
-          />
+          <ScrollView scrollY style={{ height: '450px' }}>
+            <AwardDetail
+              onClose={() => {
+                setCurrentData(false)
+                reactionRef.current?.open(successIcon, successAudio);
+              }}
+              value={currentData as API_SCORE.GetScoreAwardData}
+            />
+          </ScrollView>
         </Popup>
       </View>
       <MemoryList visible={memoryVisible} onVisibleChange={setMemoryVisible} />
-      <HoverButton icon={<IconFont size="2rem" fontClassName="iconfont" classPrefix="score" name="a-002-certificate" />} onClick={handleShowMemory} />
+      <HoverButton
+        icon={
+          <IconFont
+            size="2rem"
+            fontClassName="iconfont"
+            classPrefix="score"
+            name="a-002-certificate"
+          />
+        }
+        onClick={handleShowMemory}
+      />
+      <Reaction ref={reactionRef} />
     </Page>
   );
 };

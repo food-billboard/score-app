@@ -1,8 +1,9 @@
 import Taro from '@tarojs/taro';
 import Page from '@/components/Page';
 import { Row, Col } from '@nutui/nutui-react-taro';
-import { View, Image } from '@tarojs/components';
+import { View } from '@tarojs/components';
 import { getScoreClassifyList } from '@/services/base';
+import Image from '@/components/Image'
 import styles from './index.module.less';
 import { useCallback, useEffect, useState } from 'react';
 import { isUserSide } from '@/utils/tool';
@@ -38,7 +39,7 @@ const Design = () => {
         currPage: 0,
         pageSize: 999,
       }).then((data) => {
-        setTaskList(data || []);
+        setTaskList(data?.list || data || []);
       });
     }
     fetchData();
@@ -59,7 +60,7 @@ const Design = () => {
       }
     >
       <View className={styles['design-list']}>
-        <Row gutter={10}>
+        <Row gutter={10} wrap="wrap">
           {taskList.map((item) => {
             const { _id, image, content } = item;
             return (
@@ -68,7 +69,7 @@ const Design = () => {
                   <Image
                     className={styles['design-list-item-image']}
                     src={image}
-                    mode="aspectFit"
+                    mode="widthFix"
                   />
                   <View className={styles['design-list-item-content']}>
                     {content}

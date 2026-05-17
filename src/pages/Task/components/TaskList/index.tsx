@@ -1,9 +1,11 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, useRef } from 'react';
 import { Fabulous } from '@nutui/icons-react-taro';
 import { Popup } from '@nutui/nutui-react-taro';
-import { View, Image, Text, Button } from '@tarojs/components';
+import { View, Text, ScrollView } from '@tarojs/components';
 import dayjs from 'dayjs';
 import classnames from 'classnames';
+import Image from '@/components/Image';
+import Reaction, { ReactionRef } from '@/components/Reaction';
 import {
   getScorePrimaryClassifyList,
   getScoreMemoryList,
@@ -11,6 +13,10 @@ import {
 import ScoreAction from './components/Action';
 import styles from './index.module.less';
 import { isUserSide } from '@/utils/tool';
+import successIcon from '../../../../../public/success.png';
+import successAudio from '../../../../../public/success.mp3';
+import failIcon from '../../../../../public/fail.png';
+import failAudio from '../../../../../public/fail.mp3';
 
 type CurrentData = API_SCORE.GetScoreMemoryListData & {
   defaultScoreType: string;
@@ -26,6 +32,8 @@ const TaskList = (props: { currentDate: string }) => {
     [],
   );
   const [currentData, setCurrentData] = useState<false | CurrentData>(false);
+
+  const reactionRef = useRef<ReactionRef>(null);
 
   const handleScore = useCallback((scoreType: string, data: any) => {
     setCurrentData({
@@ -51,7 +59,7 @@ const TaskList = (props: { currentDate: string }) => {
     (data: API_SCORE.GetScoreMemoryListData) => {
       const { score_type, target_score } = data;
       // 用户端
-      if(isUserSide()) {
+      if (isUserSide()) {
         // if(score_type === 'TODO') {
         //   return (
         //     <Button type="primary" onClick={() => {
@@ -59,13 +67,13 @@ const TaskList = (props: { currentDate: string }) => {
         //     }}>完成</Button>
         //   )
         // }
-        return null 
+        return null;
       }
       if (score_type === 'TODO') {
         return (
           <>
             <Fabulous
-              onClick={handleScore.bind(null, 'DEAL', data)}
+              onClick={handleScore.bind(null, 'DONE', data)}
               color={'gray'}
             />
             <Fabulous
@@ -73,7 +81,7 @@ const TaskList = (props: { currentDate: string }) => {
                 styles['icon-reverse'],
                 styles['icon-last'],
               )}
-              onClick={handleScore.bind(null, 'DONE', data)}
+              onClick={handleScore.bind(null, 'DEAL', data)}
               color={'gray'}
             />
           </>
@@ -163,7 +171,7 @@ const TaskList = (props: { currentDate: string }) => {
 
   return (
     <View className={styles['task-list']}>
-      {primaryClassifyList
+      {(Array.isArray(primaryClassifyList) ? primaryClassifyList : [])
         .filter((item) =>
           taskList.some((task) => task.target_primary_classify === item._id),
         )
@@ -223,12 +231,23 @@ const TaskList = (props: { currentDate: string }) => {
         position="bottom"
         title={'我的任务'}
         closeable
+        portal={() => document.body}
       >
-        <ScoreAction
-          onClose={() => setCurrentData(false)}
-          value={currentData as CurrentData}
-        />
+        <ScrollView scrollY style={{ height: '400px' }}>
+          <ScoreAction
+            onClose={() => setCurrentData(false)}
+            value={currentData as CurrentData}
+            onAction={(type) => {
+              if (type === 'DONE') {
+                reactionRef.current?.open(successIcon, successAudio);
+              } else if (type === 'DEAL') {
+                reactionRef.current?.open(failIcon, failAudio);
+              }
+            }}
+          />
+        </ScrollView>
       </Popup>
+      <Reaction ref={reactionRef} />
     </View>
   );
 };
