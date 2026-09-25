@@ -13,7 +13,7 @@ import { useEffect, useRef } from 'react';
 import { useUpdate } from 'ahooks';
 import { isUserSide } from '@/utils/tool';
 
-const Page = (props: { children?: any; onBack: false | (() => void) }) => {
+const Page = (props: { children?: any; onBack?: false | (() => void) }) => {
   const { username, score, avatar } = getUserInfoData();
 
   const countUpInstance = useRef<CountUp>();
@@ -80,12 +80,12 @@ const Page = (props: { children?: any; onBack: false | (() => void) }) => {
             <Image
               src={avatar}
               style={{
-                marginRight: '.5em',
+                marginRight: '.5rem',
                 borderRadius: '50%',
                 width: '2rem',
                 height: '2rem',
               }}
-              mode="aspectFit"
+              mode="aspectFill"
             />
             {username}
           </View>

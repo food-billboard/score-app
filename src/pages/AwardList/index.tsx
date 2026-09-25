@@ -10,7 +10,7 @@ import {
 } from '@nutui/nutui-react-taro';
 import { View, Text, ScrollView } from '@tarojs/components';
 import Page from '@/components/Page';
-import Image from '@/components/Image'
+import Image from '@/components/Image';
 import { getScoreAward } from '@/services/base';
 import styles from './index.module.less';
 import { useGetState } from 'ahooks';
@@ -41,7 +41,7 @@ const AwardList = () => {
   async function fetchData() {
     return getScoreAward({
       currPage: currentPage.current,
-      pageSize: 10,
+      pageSize: 999,
       content: getContent(),
       enable: 'ENABLE',
     }).then((data) => {
@@ -149,16 +149,16 @@ const AwardList = () => {
               );
             })}
           </Grid>
+          {/* <InfiniteLoading
+            onLoadMore={async () => {
+              currentPage.current++;
+              return fetchData();
+            }}
+            hasMore={hasMore}
+            loadingText={<>加载中</>}
+            loadMoreText={<>没有更多了</>}
+          ></InfiniteLoading> */}
         </View>
-        <InfiniteLoading
-          onLoadMore={async () => {
-            currentPage.current++;
-            return fetchData();
-          }}
-          hasMore={hasMore}
-          loadingText={<>加载中</>}
-          loadMoreText={<>没有更多了</>}
-        ></InfiniteLoading>
         <Popup
           visible={!!currentData}
           closeOnOverlayClick
@@ -173,7 +173,7 @@ const AwardList = () => {
           <ScrollView scrollY style={{ height: '450px' }}>
             <AwardDetail
               onClose={() => {
-                setCurrentData(false)
+                setCurrentData(false);
                 reactionRef.current?.open(successIcon, successAudio);
               }}
               value={currentData as API_SCORE.GetScoreAwardData}

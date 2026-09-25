@@ -233,19 +233,21 @@ const TaskList = (props: { currentDate: string }) => {
         closeable
         portal={() => document.body}
       >
-        <ScrollView scrollY style={{ height: '400px' }}>
-          <ScoreAction
-            onClose={() => setCurrentData(false)}
-            value={currentData as CurrentData}
-            onAction={(type) => {
-              if (type === 'DONE') {
-                reactionRef.current?.open(successIcon, successAudio);
-              } else if (type === 'DEAL') {
-                reactionRef.current?.open(failIcon, failAudio);
-              }
-            }}
-          />
-        </ScrollView>
+        {currentData && (
+          <ScrollView scrollY style={{ height: '400px' }}>
+            <ScoreAction
+              onClose={() => setCurrentData(false)}
+              value={currentData as CurrentData}
+              onAction={(type) => {
+                if (type === 'DONE') {
+                  reactionRef.current?.open(successIcon, successAudio);
+                } else if (type === 'DEAL') {
+                  reactionRef.current?.open(failIcon, failAudio);
+                }
+              }}
+            />
+          </ScrollView>
+        )}
       </Popup>
       <Reaction ref={reactionRef} />
     </View>

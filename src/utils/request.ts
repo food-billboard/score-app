@@ -71,8 +71,8 @@ function joinUrl(path: string, host: string, query: object) {
 
 export const getPrefix = () => {
   if(process.env.NODE_ENV === 'development') {
-    // return process.env.TARO_APP_REQUEST_API as string
-    return process.env.TARO_APP_REQUEST_API_PEANUT as string
+    return process.env.TARO_APP_REQUEST_API as string
+    // return process.env.TARO_APP_REQUEST_API_PEANUT as string
   }
   return new URL(location.href).origin
 }
